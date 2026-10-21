@@ -16,7 +16,7 @@
           <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
           <span><strong>项目指标库</strong><small>Midterm catalog</small></span>
         </a>
-        <div class="header-meta"><span class="header-dot"></span> 中期检查 · 候选展示 <span id="headerDate"></span></div>
+        <nav class="header-meta" aria-label="主导航"><a href="./evidence.html">PlanCoder 成果</a><a href="./api.html">接口文档</a><span class="header-dot"></span><span id="headerDate"></span></nav>
       </header>
 
       <main id="top">
@@ -24,29 +24,34 @@
           <div class="hero-copy">
             <div class="eyebrow"><span class="eyebrow-line"></span> 智能软件决策不确定性项目 · 中期检查</div>
             <h1 id="pageTitle">指标库与规则库<span>中期展示</span></h1>
-            <p class="hero-lead">面向项目中期检查，展示“不确定性度量指标库”与“不确定性感知—预测规则库”的候选条目。当前录入需求端代码生成研究成果，其他研究方向核定后继续补充。</p>
+            <p class="hero-lead">从需求理解到计划生成，整理影响代码质量的度量信号、风险假设与修复规则。现已收录 PULSE 与 PlanCoder 两项研究，支持条目检索、函数试算和接口调用。</p>
             <div class="hero-actions">
               <a class="primary-link" href="#catalog">浏览候选条目 <span aria-hidden="true">↗</span></a>
               <span class="scope-note">当前范围：<span id="scopeText">需求条件化代码生成</span></span>
             </div>
           </div>
           <div class="hero-diagram" aria-label="从输入到质量风险提示的研究流程">
-            <div class="diagram-kicker">当前示例链路 <span>01 / 04</span></div>
-            <div class="diagram-step"><span class="step-index">01</span><div><small>INPUT</small><strong>需求与多次生成</strong></div><span class="step-rule"></span></div>
-            <div class="diagram-step"><span class="step-index">02</span><div><small>MEASURE</small><strong>不确定性度量</strong></div><span class="step-rule"></span></div>
+            <div class="diagram-kicker">研究成果与可调用能力 <span>01 / 04</span></div>
+            <div class="diagram-step"><span class="step-index">01</span><div><small>INPUT</small><strong>需求 计划与可见测试</strong></div><span class="step-rule"></span></div>
+            <div class="diagram-step"><span class="step-index">02</span><div><small>MEASURE</small><strong>不确定性与计划质量度量</strong></div><span class="step-rule"></span></div>
             <div class="diagram-step"><span class="step-index">03</span><div><small>INTERPRET</small><strong>规则条件与证据</strong></div><span class="step-rule"></span></div>
             <div class="diagram-step final-step"><span class="step-index">04</span><div><small>OUTPUT</small><strong>功能正确性风险提示</strong></div><span class="step-end">↗</span></div>
-            <p>该链路来自现阶段录入的需求端研究；预测阈值与项目级验证仍待完善。</p>
+            <p>质量评分、风险假设与修复策略分别标识。候选条目数量不代表已通过合同验收。</p>
           </div>
         </section>
 
         <section class="overview" aria-label="成果概览">
-          <div class="overview-intro"><span class="section-number">01 / 概览</span><h2>当前已整理条目</h2><p>现阶段条目来自 PULSE 需求端研究。候选数量与合同目标分开显示，独立条目数和测评状态待项目组核定。</p></div>
+          <div class="overview-intro"><span class="section-number">01 / 概览</span><h2>当前已整理条目</h2><p>PULSE 与 PlanCoder 分项成果汇总。独立条目数和测评状态待项目组核定；目标值沿用原目录配置，待协议原文复核。</p></div>
           <div class="stat-grid">
             <div class="stat-card accent"><span class="stat-label">已整理指标候选</span><div><strong id="metricCount">—</strong><span>项</span></div><small>合同目标：不少于 <b id="metricTarget">10</b> 项</small></div>
             <div class="stat-card"><span class="stat-label">已整理规则候选</span><div><strong id="ruleCount">—</strong><span>项</span></div><small>合同目标：不少于 <b id="ruleTarget">5</b> 种</small></div>
             <div class="stat-card status-card"><span class="stat-label">成熟度标记</span><div class="status-stack"><span><i class="dot dot-a"></i>A　实现与记录</span><span><i class="dot dot-b"></i>B　待独立验证</span><span><i class="dot dot-c"></i>C　机制候选</span></div></div>
           </div>
+        </section>
+
+        <section class="research-sources" aria-label="按研究来源浏览">
+          <button class="source-card" type="button" data-source="pulse"><span class="eyebrow">需求端研究</span><h2>PULSE</h2><p>生成差异、功能波动与需求歧义风险。</p><span>8 项指标候选 · 6 条风险条件 <b aria-hidden="true">↗</b></span></button>
+          <button class="source-card featured" type="button" data-source="plancoder"><span class="eyebrow">本次新增 · 计划端研究</span><h2>PlanCoder</h2><p>计划质量评价与分阶段修复方法。</p><span>4 项指标 · 3 条预测假设 · 3 条修复策略 <b aria-hidden="true">↗</b></span></button>
         </section>
 
         <section class="catalog-section" id="catalog" aria-labelledby="catalogTitle">
@@ -58,6 +63,8 @@
                 <button type="button" id="ruleTab" class="tab" role="tab" aria-selected="false" aria-controls="catalogPanel" data-kind="rules">规则库 <span id="ruleTabCount">06</span></button>
               </div>
               <div class="toolbar-controls">
+                <label class="filter-field"><span class="sr-only">研究来源</span><select id="sourceFilter"><option value="all">全部研究来源</option><option value="plancoder">PlanCoder</option><option value="pulse">PULSE</option></select></label>
+                <label class="filter-field"><span class="sr-only">成果类型</span><select id="typeFilter"><option value="all">全部成果类型</option></select></label>
                 <label class="search-field"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5"></path></svg><span class="sr-only">搜索条目</span><input id="searchInput" type="search" placeholder="搜索名称、编号或关键词" autocomplete="off" /></label>
                 <label class="filter-field"><span class="sr-only">筛选成熟度</span><select id="statusFilter"><option value="all">全部状态</option><option value="A">A · 实现与记录</option><option value="B">B · 待独立验证</option><option value="C">C · 机制候选</option></select></label>
               </div>
@@ -72,7 +79,7 @@
         <section class="interpretation" aria-labelledby="interpretationTitle"><div><span class="section-number">03 / 使用边界</span><h2 id="interpretationTitle">从候选到可交付条目</h2></div><div class="interpretation-grid"><p><strong>指标要能复算。</strong>需要固定输入、公式、实现版本和适用场景；组合或同源变换须说明为何分别计数。</p><p><strong>规则要能预测。</strong>需要明确触发条件、质量输出、阈值和独立验证。澄清优先级策略与答案防护检查应单独标识。</p><p><strong>证据要能追溯。</strong>页面仅概述研究记录；完整运行数据、逐例审核和第三方测评材料仍按项目交付要求归档。</p></div></section>
       </main>
 
-      <footer class="site-footer"><span>智能软件决策不确定性项目 / 指标库与规则库</span><span>中期检查候选 · <span id="footerDate">2026-10-21</span></span></footer>
+      <footer class="site-footer"><span>智能软件决策不确定性项目 / 指标库与规则库</span><span>中期检查候选 · <span id="footerDate">2026-10-22</span></span></footer>
     </div>
   </body>
 </html>

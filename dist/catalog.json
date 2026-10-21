@@ -1,13 +1,33 @@
 {
   "meta": {
     "title": "智能软件决策不确定性项目指标库与规则库",
-    "asOf": "2026-10-21",
+    "asOf": "2026-10-22",
     "stage": "中期检查候选展示",
     "contract": {
       "metrics": 10,
       "rules": 5
     },
-    "scope": "当前已录入需求端代码生成研究候选；其他研究方向待核定后补充"
+    "scope": "PULSE 需求端研究与 PlanCoder 计划质量研究",
+    "schemaVersion": "1.1.0",
+    "countingNote": "页面数量为候选条目；质量评分、同源变换、参数化规则族及修复策略须分别核定，不代表合同指标达标。",
+    "contractNote": "10项指标、5种规则沿用现有目录配置；本次未取得协议原文，最终以协议及项目组核定为准。",
+    "sources": [
+      {
+        "key": "pulse",
+        "name": "PULSE 需求端研究"
+      },
+      {
+        "key": "plancoder",
+        "name": "PlanCoder 计划质量研究"
+      }
+    ],
+    "plancoder": {
+      "metrics": 4,
+      "hypotheses": 3,
+      "strategies": 3,
+      "paperStatus": "论文稿；未提供录用证明",
+      "evidenceUrl": "./plancoder-evidence.json"
+    }
   },
   "metrics": [
     {
@@ -24,7 +44,11 @@
       "evidence": "Orchid 161 题配对实验中使用多次生成的代码差异；复算需保留候选代码和 CodeBLEU 环境版本。",
       "limits": "CodeBLEU 数据流分量受 Python 哈希顺序影响；展示或复算时必须标识实现与环境版本。",
       "decision": "固定可复现计算环境，确认与其他结构差异度量是否分别计数。",
-      "source": "PULSE 需求端研究"
+      "source": "PULSE 需求端研究",
+      "sourceKey": "pulse",
+      "entryType": "不确定性度量",
+      "countingStatus": "独立条目与验收计数待核定",
+      "apiPath": "/api/v1/metrics/P-I01/evaluate"
     },
     {
       "id": "P-I02",
@@ -40,7 +64,12 @@
       "evidence": "Orchid 161 题配对实验保存了逐候选测试结果，可复算通过率总体方差。",
       "limits": "结果依赖测试质量；稳定地全部失败时，该指标也可能很低。",
       "decision": "确认测试条件和失败稳定性提示应如何在页面呈现。",
-      "source": "PULSE 需求端研究"
+      "source": "PULSE 需求端研究",
+      "sourceKey": "pulse",
+      "entryType": "不确定性度量",
+      "countingStatus": "独立条目与验收计数待核定",
+      "apiPath": "/api/v1/metrics/P-I02/evaluate",
+      "family": "test-pass-variation"
     },
     {
       "id": "P-I03",
@@ -56,7 +85,11 @@
       "evidence": "Orchid 受控实验用该组合分数进行需求条件比较和风险分层。",
       "limits": "该分数不是代码错误概率；稳定错误理解可能得低分。",
       "decision": "作为组合指标是否与两个分量分别计入合同数量。",
-      "source": "PULSE 需求端研究"
+      "source": "PULSE 需求端研究",
+      "sourceKey": "pulse",
+      "entryType": "不确定性度量",
+      "countingStatus": "独立条目与验收计数待核定",
+      "apiPath": "/api/v1/metrics/P-I03/evaluate"
     },
     {
       "id": "P-I04",
@@ -72,7 +105,11 @@
       "evidence": "已有逐对代码行集合的计算口径；尚需证明它相对 CodeBLEU 的增量信息。",
       "limits": "代码行变化不一定代表语义变化，与 P-I01 可能重复。",
       "decision": "证明相对于 CodeBLEU 差异度的增量价值。",
-      "source": "PULSE 需求端研究"
+      "source": "PULSE 需求端研究",
+      "sourceKey": "pulse",
+      "entryType": "不确定性度量",
+      "countingStatus": "独立条目与验收计数待核定",
+      "apiPath": "/api/v1/metrics/P-I04/evaluate"
     },
     {
       "id": "P-I05",
@@ -88,7 +125,11 @@
       "evidence": "预研汇总保存了 K 次生成的整体成败标记，并据此计算二元熵。",
       "limits": "全部失败和全部通过时同为 0；与 P-I06 使用相同原始信息。",
       "decision": "与成败方差择一，或明确不同用途。",
-      "source": "PULSE 需求端研究"
+      "source": "PULSE 需求端研究",
+      "sourceKey": "pulse",
+      "entryType": "不确定性度量",
+      "countingStatus": "独立条目与验收计数待核定",
+      "apiPath": "/api/v1/metrics/P-I05/evaluate"
     },
     {
       "id": "P-I06",
@@ -104,7 +145,11 @@
       "evidence": "预研汇总基于同一通过比例计算 p(1−p)；与成败熵的独立性尚待核对。",
       "limits": "与 P-I05 是同一通过比例的变换，不宜只换公式就作为独立能力。",
       "decision": "核定与 P-I05 的去重方式。",
-      "source": "PULSE 需求端研究"
+      "source": "PULSE 需求端研究",
+      "sourceKey": "pulse",
+      "entryType": "不确定性度量",
+      "countingStatus": "独立条目与验收计数待核定",
+      "apiPath": "/api/v1/metrics/P-I06/evaluate"
     },
     {
       "id": "P-I07",
@@ -120,7 +165,11 @@
       "evidence": "澄清案例分析记录了每题不同代码字符串的数量，可与总生成次数配对。",
       "limits": "字符串不同不等于行为或语义不同。",
       "decision": "验证它是否提供结构差异度之外的信息。",
-      "source": "PULSE 需求端研究"
+      "source": "PULSE 需求端研究",
+      "sourceKey": "pulse",
+      "entryType": "不确定性度量",
+      "countingStatus": "独立条目与验收计数待核定",
+      "apiPath": "/api/v1/metrics/P-I07/evaluate"
     },
     {
       "id": "P-I08",
@@ -136,7 +185,131 @@
       "evidence": "Orchid 161 题配对分析比较了歧义需求与明确需求的 UQ 差值。",
       "limits": "无明确需求参照时不能计算；它是 P-I03 的差分分析量。",
       "decision": "是否进入库，及是否作为独立指标计数。",
-      "source": "PULSE 需求端研究"
+      "source": "PULSE 需求端研究",
+      "sourceKey": "pulse",
+      "entryType": "不确定性度量",
+      "countingStatus": "独立条目与验收计数待核定",
+      "apiPath": "/api/v1/metrics/P-I08/evaluate"
+    },
+    {
+      "id": "S-I01",
+      "name": "计划可行性评分",
+      "group": "计划质量",
+      "status": "B",
+      "source": "PlanCoder 计划质量研究",
+      "sourceKey": "plancoder",
+      "entryType": "计划质量评分",
+      "summary": "检查算法逻辑、步骤、边界约束，以及对可见测试预期输出的解释。",
+      "formula": "s_feasibility = Judge(task, plan, visibleTests) ∈ [0,1]；分数越高质量越好",
+      "inputs": "任务描述、计划、可见测试，以及评分器输出与版本。",
+      "scope": "独立 Python 编程任务的生成前计划评价；不读取隐藏测试与生成结果。",
+      "functionSignature": "planFeasibility(review)",
+      "functionNote": "离线函数校验并读取带理由和来源的评分；真实评分调用 POST /api/v1/plans/score，需自行配置模型。页面示例为合成输入。",
+      "evidence": "论文第4—7页：202个配对任务、404份计划；与测试通过率的 Pearson / Spearman 为 0.293 / 0.158。人工一致性分析包含100题200份计划，CCC=0.898，MAE=0.052。这些为论文报告值，本仓库尚无原始评分与标注记录。",
+      "limits": "属于计划质量评分，未校准为失败概率；本次实现是依据论文定义补充的评分接口，并非论文原始评分脚本。",
+      "decision": "归档原始提示词、评分器版本、202题逐例评分和人工盲评记录，独立验证预测能力。",
+      "apiPath": "/api/v1/metrics/S-I01/evaluate",
+      "countingStatus": "计划质量信号候选；是否计入不确定性指标须项目组核定",
+      "family": "plan-quality-feasibility",
+      "inputExample": {
+        "review": {
+          "dimension": "feasibility",
+          "score": 0.4,
+          "rationale": "合成示例：用于验证接口格式，不是研究评分。",
+          "evaluator": "synthetic-example",
+          "rubricVersion": "plancoder-plan-quality-1.0"
+        }
+      }
+    },
+    {
+      "id": "S-I02",
+      "name": "需求相关性评分",
+      "group": "计划质量",
+      "status": "B",
+      "source": "PlanCoder 计划质量研究",
+      "sourceKey": "plancoder",
+      "entryType": "计划质量评分",
+      "summary": "检查计划是否对准编程目标、覆盖明确功能要求和重要约束。",
+      "formula": "s_relevance = Judge(task, plan) ∈ [0,1]；分数越高质量越好",
+      "inputs": "任务描述、计划，以及评分器输出与版本；该维度不提供测试。",
+      "scope": "独立 Python 编程任务的生成前计划评价；不读取隐藏测试与生成结果。",
+      "functionSignature": "planRelevance(review)",
+      "functionNote": "离线函数校验并读取带理由和来源的评分；真实评分调用 POST /api/v1/plans/score，需自行配置模型。页面示例为合成输入。",
+      "evidence": "论文第4—7页：202个配对任务、404份计划；与测试通过率的 Pearson / Spearman 为 0.198 / 0.101。人工一致性分析包含100题200份计划，CCC=0.866，MAE=0.044。这些为论文报告值，本仓库尚无原始评分与标注记录。",
+      "limits": "属于计划质量评分，未校准为失败概率；本次实现是依据论文定义补充的评分接口，并非论文原始评分脚本。",
+      "decision": "归档原始提示词、评分器版本、202题逐例评分和人工盲评记录，独立验证预测能力。",
+      "apiPath": "/api/v1/metrics/S-I02/evaluate",
+      "countingStatus": "计划质量信号候选；是否计入不确定性指标须项目组核定",
+      "family": "plan-quality-relevance",
+      "inputExample": {
+        "review": {
+          "dimension": "relevance",
+          "score": 0.4,
+          "rationale": "合成示例：用于验证接口格式，不是研究评分。",
+          "evaluator": "synthetic-example",
+          "rubricVersion": "plancoder-plan-quality-1.0"
+        }
+      }
+    },
+    {
+      "id": "S-I03",
+      "name": "计划清晰度评分",
+      "group": "计划质量",
+      "status": "B",
+      "source": "PlanCoder 计划质量研究",
+      "sourceKey": "plancoder",
+      "entryType": "计划质量评分",
+      "summary": "检查计划是否顺序清楚、无歧义、具体到可以转为实现。",
+      "formula": "s_clarity = Judge(task, plan) ∈ [0,1]；分数越高质量越好",
+      "inputs": "任务描述、计划，以及评分器输出与版本；该维度不提供测试。",
+      "scope": "独立 Python 编程任务的生成前计划评价；不读取隐藏测试与生成结果。",
+      "functionSignature": "planClarity(review)",
+      "functionNote": "离线函数校验并读取带理由和来源的评分；真实评分调用 POST /api/v1/plans/score，需自行配置模型。页面示例为合成输入。",
+      "evidence": "论文第4—7页：202个配对任务、404份计划；与测试通过率的 Pearson / Spearman 为 0.102 / 0.079。人工一致性分析包含100题200份计划，CCC=0.839，MAE=0.034。这些为论文报告值，本仓库尚无原始评分与标注记录。",
+      "limits": "属于计划质量评分，未校准为失败概率；本次实现是依据论文定义补充的评分接口，并非论文原始评分脚本。",
+      "decision": "归档原始提示词、评分器版本、202题逐例评分和人工盲评记录，独立验证预测能力。",
+      "apiPath": "/api/v1/metrics/S-I03/evaluate",
+      "countingStatus": "计划质量信号候选；是否计入不确定性指标须项目组核定",
+      "family": "plan-quality-clarity",
+      "inputExample": {
+        "review": {
+          "dimension": "clarity",
+          "score": 0.4,
+          "rationale": "合成示例：用于验证接口格式，不是研究评分。",
+          "evaluator": "synthetic-example",
+          "rubricVersion": "plancoder-plan-quality-1.0"
+        }
+      }
+    },
+    {
+      "id": "S-I04",
+      "name": "同题代码通过率方差",
+      "group": "生成稳定性",
+      "status": "B",
+      "source": "PlanCoder 计划质量研究",
+      "sourceKey": "plancoder",
+      "entryType": "结果波动度量",
+      "summary": "衡量同一任务多次生成代码在同一测试集上的通过率波动。",
+      "formula": "Var(PR) = (1/K) Σᵢ(rᵢ − mean(r))²；本接口固定 ddof=0，K≥2，值域 [0,0.25]",
+      "inputs": "同题、同测试条件下至少两次生成的逐候选测试通过率；论文实验为五次。",
+      "scope": "离线评估代码生成稳定性；跨题汇总时先逐题计算，再对任务取平均。",
+      "functionSignature": "planPassRateVariance(passRates)",
+      "functionNote": "直接计算总体方差；与 P-I02 的归一化方差共享原始信息，不自动视为独立指标。",
+      "evidence": "论文第3—4页表1使用通过率方差比较五种提示设置。论文尚未明确 ddof，原始逐次生成记录未在本仓库提供，本次公式不等于已经复算表1。",
+      "limits": "全部成功和全部失败均可能方差为0；不能单独代表功能正确性或模型全部不确定性。",
+      "decision": "核实原实验 ddof；与 P-I02 合并归类并明确计数。",
+      "apiPath": "/api/v1/metrics/S-I04/evaluate",
+      "countingStatus": "与 P-I02 同源；不得重复宣称独立能力",
+      "family": "test-pass-variation",
+      "inputExample": {
+        "passRates": [
+          0,
+          0.5,
+          1,
+          0.5,
+          0.5
+        ]
+      }
     }
   ],
   "rules": [
@@ -154,7 +327,11 @@
       "evidence": "520 个案例用旧批次 UQ 对照下一批生成结果；事后探索分组的 Q1/Q5 失败率约为 4.90%/48.75%。",
       "limits": "分组结果是事后探索性描述，尚无预先固定阈值、区间或独立任务验证。",
       "decision": "用独立任务固定阈值，明确风险输出与置信度。",
-      "source": "PULSE 需求端研究"
+      "source": "PULSE 需求端研究",
+      "sourceKey": "pulse",
+      "entryType": "候选风险条件",
+      "countingStatus": "独立条目与验收计数待核定",
+      "apiPath": "/api/v1/rules/P-R01/evaluate"
     },
     {
       "id": "P-R02",
@@ -170,7 +347,11 @@
       "evidence": "161 题配对实验：已标注的模糊表述条件下，功能可靠性比明确需求低 18.82 个百分点。",
       "limits": "当前类别来自受控数据标签；真实输入的自动识别与阈值未验证。",
       "decision": "与 P-R03/P-R04 是否归为一条参数化规则。",
-      "source": "PULSE 需求端研究"
+      "source": "PULSE 需求端研究",
+      "sourceKey": "pulse",
+      "entryType": "候选风险条件",
+      "countingStatus": "独立条目与验收计数待核定",
+      "apiPath": "/api/v1/rules/P-R02/evaluate"
     },
     {
       "id": "P-R03",
@@ -186,7 +367,11 @@
       "evidence": "161 题配对实验：已标注的词汇歧义条件下，功能可靠性比明确需求低 7.33 个百分点。",
       "limits": "与 P-R02 共享规则模板；真实输入的类别识别未验证。",
       "decision": "与 P-R02 合并计数或明确独立机制。",
-      "source": "PULSE 需求端研究"
+      "source": "PULSE 需求端研究",
+      "sourceKey": "pulse",
+      "entryType": "候选风险条件",
+      "countingStatus": "独立条目与验收计数待核定",
+      "apiPath": "/api/v1/rules/P-R03/evaluate"
     },
     {
       "id": "P-R04",
@@ -202,7 +387,11 @@
       "evidence": "161 题配对实验：语义歧义条件可靠性低 6.09 个百分点，平均 UQ 仅增加 0.0029。",
       "limits": "尚无可靠的自动关键语义缺口识别器；可能属于歧义类型规则的特例。",
       "decision": "定义可执行条件，并与 P-R02/P-R03 去重。",
-      "source": "PULSE 需求端研究"
+      "source": "PULSE 需求端研究",
+      "sourceKey": "pulse",
+      "entryType": "候选风险条件",
+      "countingStatus": "独立条目与验收计数待核定",
+      "apiPath": "/api/v1/rules/P-R04/evaluate"
     },
     {
       "id": "P-R05",
@@ -218,7 +407,11 @@
       "evidence": "31 案例和 520 案例中的负收益样本经逐例审核；澄清机制已定义前提、依据和一致性检查项。",
       "limits": "当前主要是风险机制与防护检查，未校准退化概率；v2 开发案例尚待人工语义审核。",
       "decision": "区分防护检查与质量预测规则，设计独立验证。",
-      "source": "PULSE 需求端研究"
+      "source": "PULSE 需求端研究",
+      "sourceKey": "pulse",
+      "entryType": "候选风险条件",
+      "countingStatus": "独立条目与验收计数待核定",
+      "apiPath": "/api/v1/rules/P-R05/evaluate"
     },
     {
       "id": "P-R06",
@@ -234,7 +427,164 @@
       "evidence": "520 案例中有低 UQ、后续生成持续失败而澄清补回关键条件的逐例记录。",
       "limits": "当前不能在生成前可靠检测决定性约束缺失；不能以已观察的失败反向充作预测条件。",
       "decision": "先实现并独立验证约束缺口信号。",
-      "source": "PULSE 需求端研究"
+      "source": "PULSE 需求端研究",
+      "sourceKey": "pulse",
+      "entryType": "候选风险条件",
+      "countingStatus": "独立条目与验收计数待核定",
+      "apiPath": "/api/v1/rules/P-R06/evaluate"
+    },
+    {
+      "id": "S-R01",
+      "name": "低计划可行性的后续实现风险",
+      "group": "计划质量风险",
+      "status": "C",
+      "source": "PlanCoder 计划质量研究",
+      "sourceKey": "plancoder",
+      "entryType": "预测假设",
+      "summary": "将低可行性评分作为后续代码质量风险的方向性提示。",
+      "condition": "生成代码前的 feasibility 分数小于调用方预先提供的阈值。",
+      "outcome": "提示后续代码可能存在功能失败或实现困难；不输出失败概率。",
+      "inputs": "S-I01 的生成前评分，以及在独立训练数据上预先固定的阈值。",
+      "functionSignature": "flagLowPlanQuality(score, threshold)",
+      "functionNote": "只实现 score < threshold。页面中的0.6是演示参数，论文未给出经验证的阈值。",
+      "evidence": "论文表2报告与代码通过率的 Pearson / Spearman 为 0.293 / 0.158；相关性不等于阈值预测验证。",
+      "limits": "没有独立预测集、已固定阈值、精确率/召回率或概率校准；三条规则属于同一参数化规则族。",
+      "decision": "按任务划分训练和独立测试集，固定阈值并验证风险区分能力。",
+      "apiPath": "/api/v1/rules/S-R01/evaluate",
+      "countingStatus": "同一规则族的三个维度，不自动计为三种独立规则",
+      "family": "low-plan-quality",
+      "inputExample": {
+        "score": 0.4,
+        "threshold": 0.6
+      }
+    },
+    {
+      "id": "S-R02",
+      "name": "低计划相关性的后续实现风险",
+      "group": "计划质量风险",
+      "status": "C",
+      "source": "PlanCoder 计划质量研究",
+      "sourceKey": "plancoder",
+      "entryType": "预测假设",
+      "summary": "将低相关性评分作为后续代码质量风险的方向性提示。",
+      "condition": "生成代码前的 relevance 分数小于调用方预先提供的阈值。",
+      "outcome": "提示后续代码可能存在功能失败或实现困难；不输出失败概率。",
+      "inputs": "S-I02 的生成前评分，以及在独立训练数据上预先固定的阈值。",
+      "functionSignature": "flagLowPlanQuality(score, threshold)",
+      "functionNote": "只实现 score < threshold。页面中的0.6是演示参数，论文未给出经验证的阈值。",
+      "evidence": "论文表2报告与代码通过率的 Pearson / Spearman 为 0.198 / 0.101；相关性不等于阈值预测验证。",
+      "limits": "没有独立预测集、已固定阈值、精确率/召回率或概率校准；三条规则属于同一参数化规则族。",
+      "decision": "按任务划分训练和独立测试集，固定阈值并验证风险区分能力。",
+      "apiPath": "/api/v1/rules/S-R02/evaluate",
+      "countingStatus": "同一规则族的三个维度，不自动计为三种独立规则",
+      "family": "low-plan-quality",
+      "inputExample": {
+        "score": 0.4,
+        "threshold": 0.6
+      }
+    },
+    {
+      "id": "S-R03",
+      "name": "低计划清晰度的后续实现风险",
+      "group": "计划质量风险",
+      "status": "C",
+      "source": "PlanCoder 计划质量研究",
+      "sourceKey": "plancoder",
+      "entryType": "预测假设",
+      "summary": "将低清晰度评分作为后续代码质量风险的方向性提示。",
+      "condition": "生成代码前的 clarity 分数小于调用方预先提供的阈值。",
+      "outcome": "提示后续代码可能存在功能失败或实现困难；不输出失败概率。",
+      "inputs": "S-I03 的生成前评分，以及在独立训练数据上预先固定的阈值。",
+      "functionSignature": "flagLowPlanQuality(score, threshold)",
+      "functionNote": "只实现 score < threshold。页面中的0.6是演示参数，论文未给出经验证的阈值。",
+      "evidence": "论文表2报告与代码通过率的 Pearson / Spearman 为 0.102 / 0.079；相关性不等于阈值预测验证。",
+      "limits": "没有独立预测集、已固定阈值、精确率/召回率或概率校准；三条规则属于同一参数化规则族。",
+      "decision": "按任务划分训练和独立测试集，固定阈值并验证风险区分能力。",
+      "apiPath": "/api/v1/rules/S-R03/evaluate",
+      "countingStatus": "同一规则族的三个维度，不自动计为三种独立规则",
+      "family": "low-plan-quality",
+      "inputExample": {
+        "score": 0.4,
+        "threshold": 0.6
+      }
+    },
+    {
+      "id": "S-R04",
+      "name": "公开测试失败后的计划修复",
+      "group": "分阶段修复控制",
+      "status": "A",
+      "source": "PlanCoder 计划质量研究",
+      "sourceKey": "plancoder",
+      "entryType": "修复策略",
+      "summary": "修复计划并据此重新生成代码。",
+      "condition": "公开测试未全部通过，且已执行计划修复次数小于上限。",
+      "outcome": "修复计划并据此重新生成代码。",
+      "inputs": "公开测试通过标记、已执行计划/代码修复次数、配置预算；默认上限5次和6次。",
+      "functionSignature": "shouldRepairPlan(context)",
+      "functionNote": "执行阶段条件判断；不运行生成代码、不调用模型、不替代隐藏测试。",
+      "evidence": "论文第7—9页与 plancoder.py 的分阶段控制一致；现有两模型四数据集记录各覆盖929个任务。本次补充独立可调用条件函数与边界测试。",
+      "limits": "属于响应与修复策略，不属于经过验证的质量预测规则；不与预测规则混同计数。",
+      "decision": "专家按项目协议核定其成果类型，保留各阶段条件与运行记录。",
+      "apiPath": "/api/v1/rules/S-R04/evaluate",
+      "countingStatus": "策略条目，单列展示，不作为预测规则达标证明",
+      "family": "plancoder-staged-repair",
+      "inputExample": {
+        "publicPassed": false,
+        "planRepairs": 0,
+        "codeRepairs": 0
+      }
+    },
+    {
+      "id": "S-R05",
+      "name": "计划修复耗尽后的检索与代码修复",
+      "group": "分阶段修复控制",
+      "status": "A",
+      "source": "PlanCoder 计划质量研究",
+      "sourceKey": "plancoder",
+      "entryType": "修复策略",
+      "summary": "固定最终计划，按计划检索与重排示例，继续修复代码。",
+      "condition": "公开测试仍失败，计划修复次数已达上限，代码修复次数尚未达上限。",
+      "outcome": "固定最终计划，按计划检索与重排示例，继续修复代码。",
+      "inputs": "公开测试通过标记、已执行计划/代码修复次数、配置预算；默认上限5次和6次。",
+      "functionSignature": "shouldRetrieveAndRepair(context)",
+      "functionNote": "执行阶段条件判断；不运行生成代码、不调用模型、不替代隐藏测试。",
+      "evidence": "论文第7—9页与 plancoder.py 的分阶段控制一致；现有两模型四数据集记录各覆盖929个任务。本次补充独立可调用条件函数与边界测试。",
+      "limits": "属于响应与修复策略，不属于经过验证的质量预测规则；不与预测规则混同计数。",
+      "decision": "专家按项目协议核定其成果类型，保留各阶段条件与运行记录。",
+      "apiPath": "/api/v1/rules/S-R05/evaluate",
+      "countingStatus": "策略条目，单列展示，不作为预测规则达标证明",
+      "family": "plancoder-staged-repair",
+      "inputExample": {
+        "publicPassed": false,
+        "planRepairs": 5,
+        "codeRepairs": 0
+      }
+    },
+    {
+      "id": "S-R06",
+      "name": "公开测试通过或预算耗尽后的停止",
+      "group": "分阶段修复控制",
+      "status": "A",
+      "source": "PlanCoder 计划质量研究",
+      "sourceKey": "plancoder",
+      "entryType": "修复策略",
+      "summary": "返回当前实现，并进行隐藏测试评估；公开测试通过不等于隐藏测试通过。",
+      "condition": "公开测试全部通过，或两类修复预算均已耗尽。",
+      "outcome": "返回当前实现，并进行隐藏测试评估；公开测试通过不等于隐藏测试通过。",
+      "inputs": "公开测试通过标记、已执行计划/代码修复次数、配置预算；默认上限5次和6次。",
+      "functionSignature": "shouldStopPlanCoder(context)",
+      "functionNote": "执行阶段条件判断；不运行生成代码、不调用模型、不替代隐藏测试。",
+      "evidence": "论文第7—9页与 plancoder.py 的分阶段控制一致；现有两模型四数据集记录各覆盖929个任务。本次补充独立可调用条件函数与边界测试。",
+      "limits": "属于响应与修复策略，不属于经过验证的质量预测规则；不与预测规则混同计数。",
+      "decision": "专家按项目协议核定其成果类型，保留各阶段条件与运行记录。",
+      "apiPath": "/api/v1/rules/S-R06/evaluate",
+      "countingStatus": "策略条目，单列展示，不作为预测规则达标证明",
+      "family": "plancoder-staged-repair",
+      "inputExample": {
+        "publicPassed": true,
+        "planRepairs": 0,
+        "codeRepairs": 0
+      }
     }
   ]
 }

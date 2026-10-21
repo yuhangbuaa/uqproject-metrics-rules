@@ -141,3 +141,63 @@ export function flagStableMisunderstanding(uq, lowUqThreshold, criticalConstrain
   if (typeof criticalConstraintMissing !== "boolean") throw new TypeError("criticalConstraintMissing 必须是布尔值");
   return unitValue(uq, "uq") <= unitValue(lowUqThreshold, "lowUqThreshold") && criticalConstraintMissing;
 }
+
+/** S-I01/02/03：校验带来源的评分记录；不会在本地伪造模型判断。 */
+function planQualityReview(review, dimension) {
+  if (!review || typeof review !== "object" || review.dimension !== dimension) throw new TypeError(`review.dimension 必须为 ${dimension}`);
+  for (const key of ["rationale", "evaluator", "rubricVersion"]) {
+    if (typeof review[key] !== "string" || !review[key].trim()) throw new TypeError(`review.${key} 不能为空`);
+  }
+  return unitValue(review.score, "review.score");
+}
+
+export function planFeasibility(review) {
+  return planQualityReview(review, "feasibility");
+}
+
+export function planRelevance(review) {
+  return planQualityReview(review, "relevance");
+}
+
+export function planClarity(review) {
+  return planQualityReview(review, "clarity");
+}
+
+/** S-I04：至少两次同题生成，固定总体方差 ddof=0；不是失败概率。 */
+export function planPassRateVariance(passRates) {
+  numbersInUnitInterval(passRates, "passRates");
+  if (passRates.length < 2) throw new TypeError("至少需要两次生成的通过率");
+  const mean = passRates.reduce((sum, value) => sum + value, 0) / passRates.length;
+  return passRates.reduce((sum, value) => sum + (value - mean) ** 2, 0) / passRates.length;
+}
+
+/** S-R01/02/03：调用方必须显式提供阈值；三个维度属于同一规则族。 */
+export function flagLowPlanQuality(score, threshold) {
+  return unitValue(score, "score") < unitValue(threshold, "threshold");
+}
+
+/** S-R04/05/06：三阶段控制；不执行生成代码，不读取隐藏测试结果。 */
+export function planCoderDecision(context) {
+  if (!context || typeof context.publicPassed !== "boolean") throw new TypeError("publicPassed 必须是布尔值");
+  const { publicPassed, planRepairs, codeRepairs, maxPlanRepairs = 5, maxCodeRepairs = 6 } = context;
+  for (const value of [planRepairs, codeRepairs, maxPlanRepairs, maxCodeRepairs]) {
+    if (!Number.isInteger(value) || value < 0) throw new TypeError("修复次数与上限必须是非负整数");
+  }
+  if (planRepairs > maxPlanRepairs || codeRepairs > maxCodeRepairs) throw new TypeError("修复次数超过配置上限");
+  if (publicPassed) return "return_and_evaluate_hidden";
+  if (planRepairs < maxPlanRepairs) return "repair_plan_and_regenerate_code";
+  if (codeRepairs < maxCodeRepairs) return "retrieve_by_final_plan_and_repair_code";
+  return "return_final_code_and_evaluate_hidden";
+}
+
+export function shouldRepairPlan(context) {
+  return planCoderDecision(context) === "repair_plan_and_regenerate_code";
+}
+
+export function shouldRetrieveAndRepair(context) {
+  return planCoderDecision(context) === "retrieve_by_final_plan_and_repair_code";
+}
+
+export function shouldStopPlanCoder(context) {
+  return planCoderDecision(context).startsWith("return_");
+}

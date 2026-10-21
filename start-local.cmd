@@ -16,11 +16,11 @@ exit /b 1
 :run_py
 echo Project midterm catalog: http://127.0.0.1:4173/
 echo Keep this window open. Press Ctrl+C to stop.
-py -3 -m http.server 4173 --bind 127.0.0.1 --directory dist
+py -3 server.py --port 4173
 exit /b %errorlevel%
 
 :run_python
 echo Project midterm catalog: http://127.0.0.1:4173/
 echo Keep this window open. Press Ctrl+C to stop.
-python -m http.server 4173 --bind 127.0.0.1 --directory dist
+python server.py --port 4173
 exit /b %errorlevel%

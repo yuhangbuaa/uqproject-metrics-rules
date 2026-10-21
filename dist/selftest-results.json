@@ -1,0 +1,38 @@
+{
+  "executedAt": "2026-10-22T00:59:22.361082+08:00",
+  "scope": "本机内部自测，非专家或第三方测试",
+  "externalModelCalled": false,
+  "python": {
+    "version": "3.12.14",
+    "tests": 24,
+    "failures": 0,
+    "errors": 0,
+    "passed": true
+  },
+  "javascript": {
+    "version": "v24.19.0",
+    "tests": 6,
+    "passed": true
+  },
+  "environment": {
+    "system": "Windows",
+    "release": "11",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 26 Model 68 Stepping 0, AuthenticAMD"
+  },
+  "catalog": {
+    "metrics": 12,
+    "rules": 12,
+    "plancoderMetrics": 4,
+    "plancoderRiskHypotheses": 3,
+    "plancoderStrategies": 3
+  },
+  "sourceHashes": {
+    "server.py": "2366775aaeced16e0813ec866156a74678a0b8a7b05b46d1d5e54a9e9ab771ce",
+    "plancoder_metrics.py": "c7ff0d42898c72f93135401ce5bcad2ea4a52ef02bee6093b031fb212d8d890b",
+    "dist/catalog-functions.mjs": "07f1aa0f03d9e863116146bdb7580ac3acc26fb563e52eb206cc8ce72761798b",
+    "dist/catalog.json": "58520c7d1720645dc7e318e2e9fc8193c9004f19452b62c6f8da85460c689510",
+    "tests/test_api.py": "ff603bfbd675e32b3e0e68a36c9d2798d453218888216a9b3b0e64d4088917d4",
+    "tests/catalog-functions.test.mjs": "7e2c46a4eeb1726c628e6d3d8956df3eb3138e8856c703a172b7570e7f857259"
+  }
+}
