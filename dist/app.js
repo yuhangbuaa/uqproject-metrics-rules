@@ -1,0 +1,133 @@
+const state = { data: null, kind: "metrics", query: "", status: "all", selected: { metrics: null, rules: null } };
+const $ = (id) => document.getElementById(id);
+const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
+const statusText = { A: "A · 实现与记录", B: "B · 待独立验证", C: "C · 机制候选" };
+
+function entries() {
+  return state.data?.[state.kind] ?? [];
+}
+
+function visibleEntries() {
+  const search = state.query.trim().toLocaleLowerCase("zh-CN");
+  return entries().filter((item) => {
+    if (state.status !== "all" && item.status !== state.status) return false;
+    if (!search) return true;
+    return [item.id, item.name, item.group, item.summary, item.formula, item.condition, item.outcome, item.functionSignature]
+      .filter(Boolean).join(" ").toLocaleLowerCase("zh-CN").includes(search);
+  });
+}
+
+function detailBlock(label, content, extraClass = "") {
+  return `<div class="detail-block ${extraClass}"><h4>${escapeHtml(label)}</h4><p>${escapeHtml(content)}</p></div>`;
+}
+
+function functionBlock(item, isMetric) {
+  if (!item.functionSignature) return "";
+  const functionName = item.functionSignature.split("(")[0];
+  return `<div class="detail-block wide function-block"><h4>${isMetric ? "可复算函数" : "候选规则条件函数"}</h4>
+    <code>${escapeHtml(item.functionSignature)}</code><p>${escapeHtml(item.functionNote)}</p>
+    <a href="./functions.html?name=${encodeURIComponent(functionName)}" target="_blank" rel="noopener">查看函数定义 ↗</a></div>`;
+}
+
+function renderDetail(item) {
+  const panel = $("detailPanel");
+  if (!item) {
+    panel.innerHTML = `<div class="empty-state">当前筛选下没有条目。试试其他关键词或状态。</div>`;
+    return;
+  }
+  const isMetric = state.kind === "metrics";
+  const highlightLabel = isMetric ? "计算口径" : "触发条件 → 预测结论";
+  const highlight = isMetric ? item.formula : `${item.condition} → ${item.outcome}`;
+  panel.innerHTML = `
+    <div class="detail-kicker"><span>${escapeHtml(item.id)} / ${escapeHtml(item.group)} · ${escapeHtml(item.source)}</span><span class="status-pill status-${escapeHtml(item.status)}">${escapeHtml(statusText[item.status])}</span></div>
+    <h3>${escapeHtml(item.name)}</h3>
+    <p class="detail-summary">${escapeHtml(item.summary)}</p>
+    <div class="detail-highlight"><small>${highlightLabel}</small><p>${escapeHtml(highlight)}</p></div>
+    <div class="detail-grid">
+      ${detailBlock("所需数据", item.inputs)}
+      ${detailBlock(isMetric ? "适用范围" : "预测输出", isMetric ? item.scope : item.outcome)}
+      ${functionBlock(item, isMetric)}
+      ${detailBlock("研究证据", item.evidence, "wide")}
+      ${detailBlock("当前限制", item.limits, "wide limit")}
+      ${detailBlock("下一步核对", item.decision, "wide decision")}
+    </div>`;
+}
+
+function render() {
+  if (!state.data) return;
+  const isMetric = state.kind === "metrics";
+  $("metricTab").classList.toggle("is-active", isMetric);
+  $("ruleTab").classList.toggle("is-active", !isMetric);
+  $("metricTab").setAttribute("aria-selected", String(isMetric));
+  $("ruleTab").setAttribute("aria-selected", String(!isMetric));
+  $("catalogPanel").setAttribute("aria-labelledby", isMetric ? "metricTab" : "ruleTab");
+  $("resultLabel").textContent = isMetric ? "指标候选" : "规则候选";
+
+  const list = visibleEntries();
+  $("resultCount").textContent = `${list.length} 项`;
+  if (!list.some((item) => item.id === state.selected[state.kind])) state.selected[state.kind] = list[0]?.id ?? null;
+
+  $("entryList").innerHTML = list.length ? list.map((item) => `
+    <button type="button" class="entry-card ${state.selected[state.kind] === item.id ? "is-selected" : ""}" data-entry-id="${escapeHtml(item.id)}" aria-pressed="${state.selected[state.kind] === item.id}">
+      <span class="entry-topline"><span class="entry-id">${escapeHtml(item.id)}</span><span class="entry-group">${escapeHtml(item.group)}</span></span>
+      <span class="entry-name-row"><strong>${escapeHtml(item.name)}</strong><span class="status-pill status-${escapeHtml(item.status)}">${escapeHtml(item.status)}</span></span>
+      <p>${escapeHtml(item.summary)}</p>
+    </button>`).join("") : `<div class="empty-state">没有匹配的条目。请调整搜索或筛选条件。</div>`;
+
+  $("entryList").querySelectorAll("[data-entry-id]").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.selected[state.kind] = button.dataset.entryId;
+      render();
+      if (window.matchMedia("(max-width: 760px)").matches) $("detailPanel").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+  renderDetail(list.find((item) => item.id === state.selected[state.kind]));
+}
+
+function bindControls() {
+  document.querySelectorAll("[data-kind]").forEach((tab) => tab.addEventListener("click", () => {
+    state.kind = tab.dataset.kind;
+    state.query = "";
+    state.status = "all";
+    $("searchInput").value = "";
+    $("statusFilter").value = "all";
+    render();
+  }));
+  $("searchInput").addEventListener("input", (event) => { state.query = event.target.value; render(); });
+  $("statusFilter").addEventListener("change", (event) => { state.status = event.target.value; render(); });
+  const tabs = [$("metricTab"), $("ruleTab")];
+  tabs.forEach((tab, index) => tab.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+      event.preventDefault();
+      tabs[1 - index].focus();
+      tabs[1 - index].click();
+    }
+  }));
+}
+
+async function init() {
+  bindControls();
+  try {
+    const response = await fetch("./catalog.json", { cache: "no-store" });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const data = await response.json();
+    if (!Array.isArray(data.metrics) || !Array.isArray(data.rules)) throw new Error("数据格式不完整");
+    state.data = data;
+    $("metricCount").textContent = data.metrics.length;
+    $("ruleCount").textContent = data.rules.length;
+    $("metricTabCount").textContent = String(data.metrics.length).padStart(2, "0");
+    $("ruleTabCount").textContent = String(data.rules.length).padStart(2, "0");
+    $("metricTarget").textContent = data.meta.contract.metrics;
+    $("ruleTarget").textContent = data.meta.contract.rules;
+    $("scopeText").textContent = data.meta.scope;
+    $("headerDate").textContent = data.meta.asOf;
+    $("footerDate").textContent = data.meta.asOf;
+    render();
+  } catch (error) {
+    $("entryList").innerHTML = `<div class="empty-state">目录数据加载失败，请刷新页面重试。</div>`;
+    $("detailPanel").innerHTML = `<div class="empty-state">无法读取条目详情。</div>`;
+    console.error("Catalog load failed", error);
+  }
+}
+
+init();
