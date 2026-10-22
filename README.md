@@ -50,7 +50,25 @@ Invoke-RestMethod -Method Post -Uri 'http://127.0.0.1:4173/api/v1/metrics/S-I04/
 
 返回总体方差0.1，固定ddof=0；不是已经复算论文RQ1的原始五次采样记录。P-I01接口聚合外部提供的CodeBLEU相似度，需声明实现版本；本服务不运行CodeBLEU。
 
-S-I01至S-I03的离线接口校验带理由、评分器和rubric版本的已有评分记录，不伪造语义评分。真实模型评分由调用方配置服务端环境变量后启用：
+S-I01至S-I03在页面上提供异步模型评分函数、调用示例和完整模块下载。函数接收 `apiKey`、`baseUrl`、`model`、`problem`、`plan`，可行性函数额外接收非空 `visibleTests` 数组。调用方在 Node.js 18+ 中使用 `await` 获得模型实际生成的 `value`（0～1）、`rationale`、`dimension`、`evaluator`、`rubricVersion` 和 `usage`，无需预先提供分数。模型服务需支持 `/chat/completions` 请求和相应 JSON 返回结构；浏览器直接调用需服务支持跨域。函数不保存或返回 API Key。
+
+```js
+import { planFeasibility, planRelevance, planClarity } from './dist/catalog-functions.mjs';
+
+const options = {
+  apiKey: process.env.PLAN_JUDGE_API_KEY,
+  baseUrl: process.env.PLAN_JUDGE_BASE_URL,
+  model: process.env.PLAN_JUDGE_MODEL,
+  problem: '编写 add(a, b)，返回两个整数的和。',
+  plan: '接收两个整数，将它们相加并返回结果。'
+};
+const feasibility = await planFeasibility({ ...options, visibleTests: ['assert add(1, 2) == 3'] });
+const relevance = await planRelevance(options);
+const clarity = await planClarity(options);
+console.log({ feasibility, relevance, clarity });
+```
+
+`POST /api/v1/metrics/S-I01/evaluate` 至 `S-I03/evaluate` 继续校验已有 `review` 评分记录。另一个入口 `POST /api/v1/plans/score` 使用服务端环境变量调用模型：
 
 ```powershell
 $env:PLAN_JUDGE_ENABLED = '1'
@@ -60,7 +78,7 @@ $env:PLAN_JUDGE_BASE_URL = 'https://YOUR_PROVIDER/v1'
 python server.py
 ```
 
-未配置时返回503。真实评分按维度独立调用，只有可行性接收可见测试；相关性和清晰度仅接收任务与计划。此接口是本次依据论文定义补充的实现，不冒充论文原始评分脚本。页面评分和阈值示例均为合成输入。本次测试未调用外部模型。
+服务端环境变量未配置时，`/api/v1/plans/score` 返回503；可下载的评分函数使用自己的输入配置，不依赖本地 Python 服务。真实评分按维度独立调用，只有可行性接收可见测试；相关性和清晰度仅接收任务与计划。此实现依据论文定义补充，不冒充论文原始评分脚本。页面中的任务、评分记录和阈值示例均为合成输入。本次测试使用模拟模型响应，未调用外部模型。
 
 ## 证据复算与检查
 
@@ -74,4 +92,4 @@ python scripts/run_checks.py --node 'PATH_TO_NODE_EXECUTABLE'
 
 历史复算忽略summary，按task_id保留文件最后一条记录，不依据成败选优，原研究文件不改写。32份文件的哈希和结果保存在 `dist/plancoder-evidence.json`；重复、合并来源及失败调用零计量等事项显式保留。RQ1、RQ2、人工盲评及消融原始材料尚未齐全，不宣称已独立复算。
 
-本轮通过Python24项和JavaScript6项检查，记录在 `dist/selftest-results.json`。四份模板衍生DOCX位于 `deliverables/中期检查材料_20261022/`；基本信息和经费留空，专家结论与签字未预填。详见 [中期检查准备说明](docs/中期检查准备说明.md)。模板审计与渲染中间件位于忽略目录 `.work/midterm/`。未发布远程网站或推送Gitee。
+当前通过Python24项和JavaScript12项检查，记录在 `dist/selftest-results.json`。四份模板衍生DOCX位于 `deliverables/中期检查材料_20261022/`；基本信息和经费留空，专家结论与签字未预填。详见 [中期检查准备说明](docs/中期检查准备说明.md)。模板审计与渲染中间件位于忽略目录 `.work/midterm/`。未发布远程网站或推送Gitee。

@@ -26,9 +26,12 @@ function detailBlock(label, content, extraClass = "") {
 function functionBlock(item, isMetric) {
   if (!item.functionSignature) return "";
   const functionName = item.functionSignature.split("(")[0];
-  return `<div class="detail-block wide function-block"><h4>${isMetric ? "可复算函数" : item.entryType === "修复策略" ? "阶段控制函数" : "候选规则条件函数"}</h4>
+  return `<div class="detail-block wide function-block"><h4>${item.functionExecution === "model" ? "模型评分函数" : isMetric ? "可复算函数" : item.entryType === "修复策略" ? "阶段控制函数" : "候选规则条件函数"}</h4>
     <code>${escapeHtml(item.functionSignature)}</code><p>${escapeHtml(item.functionNote)}</p>
-    <a href="./functions.html?name=${encodeURIComponent(functionName)}" target="_blank" rel="noopener">查看函数定义 ↗</a></div>`;
+    ${item.functionReturns ? `<h4 class="function-subtitle">返回值</h4><p>${escapeHtml(item.functionReturns)}</p>` : ""}
+    ${item.functionExample ? `<h4 class="function-subtitle">调用示例 · Node.js</h4><pre class="function-example"><code>${escapeHtml(item.functionExample)}</code></pre>` : ""}
+    <a href="./functions.html?name=${encodeURIComponent(functionName)}" target="_blank" rel="noopener">查看函数定义 ↗</a>
+    ${item.functionExecution === "model" ? `<a class="function-download" href="./catalog-functions.mjs" download>下载函数模块 ↓</a>` : ""}</div>`;
 }
 
 function renderDetail(item) {
@@ -38,6 +41,7 @@ function renderDetail(item) {
     return;
   }
   const isMetric = state.kind === "metrics";
+  const isModelFunction = item.functionExecution === "model";
   const highlightLabel = isMetric ? "计算口径" : item.entryType === "修复策略" ? "触发条件 → 执行动作" : "触发条件 → 风险提示";
   const highlight = isMetric ? item.formula : `${item.condition} → ${item.outcome}`;
   panel.innerHTML = `
@@ -46,23 +50,23 @@ function renderDetail(item) {
     <p class="detail-summary">${escapeHtml(item.summary)}</p>
     <div class="detail-highlight"><small>${highlightLabel}</small><p>${escapeHtml(highlight)}</p></div>
     <div class="detail-grid">
+      ${isModelFunction ? functionBlock(item, isMetric) : ""}
       ${detailBlock("所需数据", item.inputs)}
       ${detailBlock(isMetric ? "适用范围" : item.entryType === "修复策略" ? "执行动作" : "风险输出", isMetric ? item.scope : item.outcome)}
-      ${functionBlock(item, isMetric)}
+      ${isModelFunction ? "" : functionBlock(item, isMetric)}
       ${detailBlock("研究证据", item.evidence, "wide")}
       ${detailBlock("成果类型与计数", `${item.entryType}；${item.countingStatus}`, "wide")}
-      <div class="detail-block wide"><h4>调用接口</h4><code>${escapeHtml(item.apiPath)}</code><p><a class="text-link" href="./api.html?id=${encodeURIComponent(item.id)}">查看请求示例与接口文档 ↗</a></p></div>
+      <div class="detail-block wide"><h4>${isModelFunction ? "已有评分记录校验接口" : "调用接口"}</h4><code>${escapeHtml(item.apiPath)}</code>${item.apiNote ? `<p>${escapeHtml(item.apiNote)}</p>` : ""}<p><a class="text-link" href="./api.html?id=${encodeURIComponent(item.id)}">查看请求示例与接口文档 ↗</a></p></div>
       ${detailBlock("当前限制", item.limits, "wide limit")}
       ${detailBlock("下一步核对", item.decision, "wide decision")}
     </div>
-    ${item.inputExample ? `<section class="entry-demo"><h4>试算这个条目</h4><p>下方是可编辑的合成示例，用于检查函数行为，不是论文实验记录。预测阈值仅作演示。</p><label class="sr-only" for="demoInput">JSON 输入</label><textarea id="demoInput" rows="8" spellcheck="false">${escapeHtml(JSON.stringify(item.inputExample, null, 2))}</textarea><button type="button" id="runDemo" class="small-button">本地试算</button><pre id="demoOutput" aria-live="polite">点击“本地试算”查看结果。</pre></section>` : ""}`;
-  if (item.inputExample) $("runDemo").addEventListener("click", async () => {
+    ${item.inputExample && !isModelFunction ? `<section class="entry-demo"><h4>试算这个条目</h4><p>下方是可编辑的合成示例，用于检查函数行为，不是论文实验记录。预测阈值仅作演示。</p><label class="sr-only" for="demoInput">JSON 输入</label><textarea id="demoInput" rows="8" spellcheck="false">${escapeHtml(JSON.stringify(item.inputExample, null, 2))}</textarea><button type="button" id="runDemo" class="small-button">本地试算</button><pre id="demoOutput" aria-live="polite">点击“本地试算”查看结果。</pre></section>` : ""}`;
+  if (item.inputExample && !isModelFunction) $("runDemo").addEventListener("click", async () => {
     try {
       const input = JSON.parse($("demoInput").value);
       const functions = await import("./catalog-functions.mjs");
       let value;
-      if (["S-I01", "S-I02", "S-I03"].includes(item.id)) value = functions[item.functionSignature.split("(")[0]](input.review);
-      else if (item.id === "S-I04") value = functions.planPassRateVariance(input.passRates);
+      if (item.id === "S-I04") value = functions.planPassRateVariance(input.passRates);
       else if (["S-R01", "S-R02", "S-R03"].includes(item.id)) value = functions.flagLowPlanQuality(input.score, input.threshold);
       else value = { triggered: functions[item.functionSignature.split("(")[0]](input), action: functions.planCoderDecision(input) };
       $("demoOutput").textContent = JSON.stringify({ id: item.id, result: value, inputType: "用户提供或合成输入", interpretation: "不输出经过校准的失败概率" }, null, 2);

@@ -13,7 +13,7 @@ const examples = {
 };
 function selectEntry() {
   const item = apiEntries.find((x) => x.id === get("apiEntry").value);
-  get("apiDescription").textContent = `${item.entryType} · ${item.summary}`;
+  get("apiDescription").textContent = `${item.entryType} · ${item.apiNote || item.summary}`;
   get("apiPath").textContent = `POST ${item.apiPath}`;
   get("apiInput").value = JSON.stringify(item.inputExample || examples[item.id] || {}, null, 2);
   get("curlExample").textContent = `curl -X POST ${location.origin}${item.apiPath} -H "Content-Type: application/json" --data '${JSON.stringify(item.inputExample || examples[item.id] || {})}'`;

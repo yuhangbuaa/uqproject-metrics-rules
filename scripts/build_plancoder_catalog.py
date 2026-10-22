@@ -32,13 +32,29 @@ def build_catalog():
         ("S-I03", "计划清晰度评分", "clarity", "planClarity", "检查计划是否顺序清楚、无歧义、具体到可以转为实现。", "任务描述、计划，以及评分器输出与版本；该维度不提供测试。", "0.102 / 0.079", "0.839", "0.034"),
     ]
     for identifier, name, dimension, function, definition, inputs, correlation, ccc, mae in quality:
+        signature = f"{function}({{ apiKey, baseUrl, model, problem, plan{', visibleTests' if dimension == 'feasibility' else ''} }})"
+        example = (
+            f'import {{ {function} }} from "./catalog-functions.mjs";\n\n'
+            f'const result = await {function}({{\n'
+            '  apiKey: process.env.PLAN_JUDGE_API_KEY,\n'
+            '  baseUrl: process.env.PLAN_JUDGE_BASE_URL,\n'
+            '  model: process.env.PLAN_JUDGE_MODEL,\n'
+            '  problem: "编写 add(a, b)，返回两个整数的和。",\n'
+            '  plan: "接收两个整数，将它们相加并返回结果。"'
+            + (',\n  visibleTests: ["assert add(1, 2) == 3", "assert add(-1, 1) == 0"]' if dimension == 'feasibility' else '')
+            + '\n});\nconsole.log(result.value, result.rationale);'
+        )
         data["metrics"].append({
             "id": identifier, "name": name, "group": "计划质量", "status": "B", "source": SOURCE, "sourceKey": "plancoder",
             "entryType": "计划质量评分", "summary": definition,
             "formula": f"s_{dimension} = Judge(task, plan{', visibleTests' if dimension == 'feasibility' else ''}) ∈ [0,1]；分数越高质量越好",
-            "inputs": inputs, "scope": "独立 Python 编程任务的生成前计划评价；不读取隐藏测试与生成结果。",
-            "functionSignature": f"{function}(review)",
-            "functionNote": "离线函数校验并读取带理由和来源的评分；真实评分调用 POST /api/v1/plans/score，需自行配置模型。页面示例为合成输入。",
+            "inputs": "apiKey、baseUrl（模型服务 HTTPS 基础地址）、model、problem（任务）、plan（计划）" + ("、visibleTests（非空可见测试数组）" if dimension == "feasibility" else "；该维度不发送测试") + "；可选 timeoutMs（默认60000毫秒）。",
+            "scope": "独立 Python 编程任务的生成前计划评价；不读取隐藏测试与生成结果。",
+            "functionSignature": signature, "functionExecution": "model",
+            "functionNote": "异步函数，使用调用方传入的 apiKey 向 baseUrl/chat/completions 请求模型实际评分；页面提供函数与调用示例。Node.js 18+ 可直接调用，浏览器调用需要模型服务支持跨域。",
+            "functionReturns": "Promise<{ value: number, rationale: string, dimension: string, evaluator: string, rubricVersion: string, usage: { llm_calls: number, total_tokens: number } }>；value 为 [0,1] 内模型实际生成的质量分数。",
+            "functionExample": example,
+            "apiNote": "此 HTTP 接口仍校验已有 review 评分记录。使用上方异步函数可传入 apiKey 生成新评分；服务端模型评分另见 POST /api/v1/plans/score。",
             "evidence": f"论文第4—7页：202个配对任务、404份计划；与测试通过率的 Pearson / Spearman 为 {correlation}。人工一致性分析包含100题200份计划，CCC={ccc}，MAE={mae}。这些为论文报告值，本仓库尚无原始评分与标注记录。",
             "limits": "属于计划质量评分，未校准为失败概率；本次实现是依据论文定义补充的评分接口，并非论文原始评分脚本。",
             "decision": "归档原始提示词、评分器版本、202题逐例评分和人工盲评记录，独立验证预测能力。",
@@ -47,7 +63,7 @@ def build_catalog():
             "inputExample": {"review": {"dimension": dimension, "score": 0.4, "rationale": "合成示例：用于验证接口格式，不是研究评分。", "evaluator": "synthetic-example", "rubricVersion": RUBRIC}},
         })
     data["metrics"].append({
-        "id": "S-I04", "name": "同题代码通过率方差", "group": "生成稳定性", "status": "B", "source": SOURCE, "sourceKey": "plancoder",
+        "id": "S-I04", "name": "代码通过率方差", "group": "生成稳定性", "status": "B", "source": SOURCE, "sourceKey": "plancoder",
         "entryType": "结果波动度量", "summary": "衡量同一任务多次生成代码在同一测试集上的通过率波动。",
         "formula": "Var(PR) = (1/K) Σᵢ(rᵢ − mean(r))²；本接口固定 ddof=0，K≥2，值域 [0,0.25]",
         "inputs": "同题、同测试条件下至少两次生成的逐候选测试通过率；论文实验为五次。",

@@ -23,7 +23,8 @@
     <main class="source-page">
       <a class="source-back" href="./index.html#catalog">← 返回指标与规则目录</a>
       <h1 id="sourceTitle">函数定义</h1>
-      <p class="source-intro">这里展示随本地页面提供的可调用函数源码。规则函数只判断候选条件是否触发；它们不输出经校准的失败概率。P-I01 的 CodeBLEU 相似度需要由调用方提供。</p>
+      <p class="source-intro">这里展示可下载调用的完整函数模块，包含共用依赖。PlanCoder 的三个质量评分函数接收 apiKey、baseUrl、model 及任务与计划，使用 await 获取模型实际评分和理由；Node.js 18+ 可直接调用，浏览器调用需要服务支持跨域。规则函数返回条件标记。P-I01 的 CodeBLEU 相似度由调用方提供。</p>
+      <a class="source-back" href="./catalog-functions.mjs" download>下载函数模块 ↓</a>
       <div class="source-meta"><span>UTF-8 显式解码</span><span>浏览器本地读取</span><span id="sourceStatus">正在载入…</span></div>
       <div class="source-frame"><pre id="sourceCode" aria-label="函数源码">正在载入函数定义…</pre></div>
     </main>
@@ -43,7 +44,7 @@
             const row = document.createElement('span');
             row.className = 'source-line';
             row.textContent = line;
-            const match = line.match(/^export function ([A-Za-z][A-Za-z0-9_]*)\(/);
+            const match = line.match(/^export (?:async )?function ([A-Za-z][A-Za-z0-9_]*)\(/);
             if (match && match[1] === requested) {
               row.classList.add('target');
               target = row;

@@ -32,7 +32,7 @@ for kind in ("metrics", "rules"):
     for item in catalog[kind]:
         paths[f"/api/v1/{kind}/{item['id']}"] = {"get": operation(item["name"] + " 定义与证据")}
         post = operation(item["name"] + " 计算或条件判断", True, item.get("inputExample"))
-        post["description"] = item["inputs"] + "。" + item["limits"]
+        post["description"] = item.get("apiNote", item["inputs"]).rstrip("。") + "。" + item["limits"]
         paths[item["apiPath"]] = {"post": post}
 document = {"openapi": "3.1.0", "info": {"title": "项目指标库与规则库本地接口", "version": "1.0.0", "description": "候选成果展示与复算接口。质量分数及规则标记不是校准后的失败概率。模型评分按维度独立调用，不向相关性与清晰度评分器提供测试。"}, "servers": [{"url": "http://127.0.0.1:4173", "description": "默认本地服务；也可使用当前站点源地址"}], "paths": paths}
 (ROOT / "dist/openapi.json").write_text(json.dumps(document, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
