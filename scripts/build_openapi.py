@@ -20,6 +20,7 @@ paths = {
     "/api/v1/health": {"get": operation("本地服务与评分服务配置状态")},
     "/api/v1/catalog": {"get": operation("完整指标与规则目录")},
     "/api/v1/evidence": {"get": operation("历史结果复算与证据索引")},
+    "/api/v1/pulse/evidence": {"get": operation("PULSE 归档诊断 澄清与固定预算证据摘要")},
     "/api/v1/openapi.json": {"get": operation("本接口描述")},
     "/api/v1/plans/decision": {"post": operation("PlanCoder阶段决策 不执行代码", True, {"publicPassed": False, "planRepairs": 5, "codeRepairs": 0})},
     "/api/v1/plans/score": {"post": operation("调用外部模型生成计划质量评分 需配置环境变量", True, {"problem": "返回两数之和", "plan": "相加并返回", "visibleTests": ["assert add(1, 2) == 3"], "dimensions": ["feasibility", "relevance", "clarity"]})},

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="PULSE 需求端不确定性度量、主动澄清与归档实验结果。" />
+    <title>PULSE 成果与证据 · 项目中期检查</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./pulse.js" defer></script>
+  </head>
+  <body>
+    <main class="subpage pulse-page">
+      <nav class="subpage-nav" aria-label="页面导航"><a class="back-link" href="./index.html">← 返回项目目录</a><a class="back-link" href="./evidence.html">PlanCoder 成果 ↗</a></nav>
+      <h1>PULSE 需求端不确定性感知与选择性澄清</h1>
+      <p class="intro">研究需求表述怎样影响代码生成，并在生成前判断何时值得澄清。页面汇总已归档的受控诊断、探索性案例和固定预算验证；条目函数可用合成输入试算。研究观察与候选规则的有效性分别标明。</p>
+      <div><span class="tag">需求端研究</span><span class="tag">五条件受控诊断</span><span class="tag">选择性澄清</span><span class="tag">内部证据核对</span></div>
+
+      <div class="workflow-strip" aria-label="研究流程">
+        <div><span class="eyebrow">阶段 01</span><strong>度量生成差异</strong><p>同一需求多次生成，比较代码结构与断言通过率，形成需求条件化 UQ。</p></div>
+        <div><span class="eyebrow">阶段 02</span><strong>生成前识别与选择</strong><p>依据需求文本及历史信号选择澄清对象。正式分类器性能仍待验证。</p></div>
+        <div><span class="eyebrow">阶段 03</span><strong>澄清并配对验证</strong><p>核对澄清回答的依据，再比较澄清前后功能结果与交互成本。</p></div>
+      </div>
+
+      <section aria-labelledby="diagnosticTitle">
+        <h2 id="diagnosticTitle">受控歧义诊断</h2>
+        <p>主要分析统一排除了三项输入与测试入口错配任务，保留 <strong>161 个基础任务、五种条件和 8,050 个代码候选</strong>。下表是归档可靠性与 UQ 结果，本次没有重新生成候选。</p>
+        <div class="table-scroll"><table class="research-table pulse-table"><thead><tr><th>需求条件</th><th>生成可靠性</th><th>相对表现</th><th>平均 UQ</th></tr></thead><tbody id="diagnosticRows"><tr><td colspan="4">正在载入…</td></tr></tbody></table></div>
+        <p class="pulse-callout" id="diagnosticInterpretation"></p>
+      </section>
+
+      <section aria-labelledby="panelTitle">
+        <h2 id="panelTitle">探索性澄清案例</h2>
+        <div class="pulse-summary-grid">
+          <div class="pulse-summary-card"><span>原始歧义需求</span><strong id="panelOriginal">—</strong><small>案例等权可靠性</small></div>
+          <div class="pulse-summary-card"><span>澄清后</span><strong id="panelClarified">—</strong><small>案例等权可靠性</small></div>
+          <div class="pulse-summary-card"><span>改善 / 不变 / 变差</span><strong id="panelSplit">—</strong><small>同时保留负收益案例</small></div>
+        </div>
+        <p id="panelScope"></p>
+      </section>
+
+      <section aria-labelledby="budgetTitle">
+        <h2 id="budgetTitle">固定预算澄清验证</h2>
+        <p id="budgetScope"></p>
+        <div class="table-scroll"><table class="research-table pulse-table"><thead><tr><th>选择方式</th><th>整体可靠性</th><th>说明</th></tr></thead><tbody id="budgetRows"><tr><td colspan="3">正在载入…</td></tr></tbody></table></div>
+        <p class="pulse-callout" id="budgetInterpretation"></p>
+      </section>
+
+      <section aria-labelledby="catalogTitle">
+        <h2 id="catalogTitle">需求端条目与函数库</h2>
+        <p>当前目录整理 <strong>8 项指标候选、6 条风险条件候选</strong>。CodeBLEU 由调用方提供固定版本的相似度实现；类别、语义缺口和澄清回答核对信号也由外部提供。规则函数只判断条件，不输出经过校准的失败概率。</p>
+        <div class="page-grid">
+          <div class="plain-panel"><h3>本地试算</h3><label class="field-label" for="pulseEntry">选择条目</label><select class="api-select" id="pulseEntry"></select><p id="pulseEntryDescription"></p><label class="field-label" for="pulseInput">JSON 输入</label><textarea id="pulseInput" rows="9" spellcheck="false"></textarea><button class="small-button" id="pulseRun" type="button">本地试算</button><p class="notice">示例为合成输入，阈值只用于演示。</p></div>
+          <div class="plain-panel"><h3>计算结果</h3><pre class="json-output" id="pulseOutput" aria-live="polite">选择条目后试算。</pre><p>Python 模块和浏览器模块按同一条目编号提供入口，HTTP API 可用于本地集成。</p><div class="download-row"><a class="text-link" href="./pulse-functions.mjs" download>下载浏览器函数库</a><a class="text-link" href="./api.html?id=P-I02">查看 HTTP 接口</a><a class="text-link" href="./functions.html?name=assertionPassInstability&amp;source=pulse">查看函数定义</a></div></div>
+        </div>
+      </section>
+
+      <section aria-labelledby="limitsTitle">
+        <h2 id="limitsTitle">证据范围与待核事项</h2>
+        <ul id="pulseOpenItems" class="evidence-list"></ul>
+        <details class="pulse-sources"><summary>查看归档报告路径与文件哈希</summary><ul id="pulseSources"></ul></details>
+        <div class="download-row"><a class="text-link" href="./pulse-evidence.json" download>下载证据摘要及来源哈希</a><a class="text-link" href="./index.html#catalog">浏览全部指标与规则</a></div>
+        <p id="pulseError" role="status"></p>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,109 @@
+{
+  "researchAsOf": "2026-10-19",
+  "evidenceType": "只读归档结果摘要；本次未重新生成代码或训练模型",
+  "diagnostic": {
+    "baseTasks": 161,
+    "conditions": 5,
+    "candidates": 8050,
+    "originalTasks": 164,
+    "excludedForInputMismatch": 3,
+    "rows": [
+      {
+        "condition": "明确需求",
+        "reliability": 83.79,
+        "uq": 0.1349
+      },
+      {
+        "condition": "词汇歧义",
+        "reliability": 76.46,
+        "uq": 0.1564
+      },
+      {
+        "condition": "语义歧义",
+        "reliability": 77.7,
+        "uq": 0.1379
+      },
+      {
+        "condition": "句法歧义",
+        "reliability": 81.3,
+        "uq": 0.1479
+      },
+      {
+        "condition": "模糊表述",
+        "reliability": 64.97,
+        "uq": 0.1524
+      }
+    ],
+    "interpretation": "语义歧义可靠性下降，但 UQ 增量很小；低生成波动不能排除稳定错误理解。"
+  },
+  "panel": {
+    "selectedCases": 31,
+    "baseTasks": 27,
+    "arms": 124,
+    "candidates": 1240,
+    "originalReliability": 63.55,
+    "clarifiedReliability": 87.1,
+    "improved": 12,
+    "unchanged": 15,
+    "worsened": 4,
+    "limitation": "分层选择且使用知情模拟用户，主要审阅机制和负收益，不能外推为总体平均收益。"
+  },
+  "budget": {
+    "baseTasks": 130,
+    "ambiguousCases": 520,
+    "newCandidates": 10400,
+    "mainClarifications": 128,
+    "noClarification": 74.7885,
+    "allClarification": 79.5385,
+    "topUq": 76.5,
+    "uniformRandomExpectation": 75.9577,
+    "differencePp": 0.5423,
+    "clusterCi95Pp": [
+      -0.2592,
+      1.4121
+    ],
+    "improved": 65,
+    "unchanged": 429,
+    "worsened": 26,
+    "interpretation": "全量澄清观察到收益；同预算高 UQ 优先相对随机的优势区间跨零，尚未确立。"
+  },
+  "catalog": {
+    "metricCandidates": 8,
+    "riskConditionCandidates": 6,
+    "counting": "组合指标、同源变换和同一参数化规则族须去重；候选数不等于合同合格数。"
+  },
+  "openItems": [
+    "正式分类器权重和独立准确率证据未齐，生成前识别性能不能报告为已验证。",
+    "部分结构差异历史值受哈希顺序影响；复现时需固定环境和版本。",
+    "测试适配器曾修订并限定范围重评；冻结结果与修订结果分开保存。",
+    "指标和规则尚需独立计数、预定阈值和独立任务上的预测验证。",
+    "当前展示和内部函数检查不代替外部专家测试、第三方测评或合同验收。"
+  ],
+  "sources": [
+    {
+      "key": "overview",
+      "pathWithinUqclassifier": "experiments/orchid_diagnostic/analysis/README.md",
+      "sha256": "2f25de7c5594013684a8f5efdb7f456d999ac2a3b6b85e05ab93a490f16bc05e"
+    },
+    {
+      "key": "diagnostic",
+      "pathWithinUqclassifier": "experiments/orchid_diagnostic/analysis/20261012_212455_primary161/REPORT.md",
+      "sha256": "5a354752760a2fc8dfbf2ff1d1abc3dd3a6dcd66a3f6d6d009c0523434b23758"
+    },
+    {
+      "key": "panel",
+      "pathWithinUqclassifier": "experiments/orchid_diagnostic/analysis/clarification_panel_20261013_232133/REPORT.md",
+      "sha256": "e5bbc2483bf87a0bde9a4322b015a5750a1b7985b3f6166254c4761ff63a923a"
+    },
+    {
+      "key": "validation",
+      "pathWithinUqclassifier": "experiments/orchid_diagnostic/analysis/uq_policy_validation_v2_20261015_001912/REPORT.md",
+      "sha256": "9d85607177eee79e7df86d2c81ddee890a87d6d2cebe6e23e453b36140de9f16"
+    },
+    {
+      "key": "review",
+      "pathWithinUqclassifier": "experiments/orchid_diagnostic/analysis/evaluation_review_20261019/summary.json",
+      "sha256": "95478597a513ea822d4eca11776878a80e4d3db479f189df4c77d46d475ca87e"
+    }
+  ]
+}

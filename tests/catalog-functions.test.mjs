@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import * as f from '../dist/catalog-functions.mjs';
+import * as pulse from '../dist/pulse-functions.mjs';
 
 const modelOptions = {
   apiKey: 'test-only-api-key', baseUrl: 'https://judge.example/v1/', model: 'test-judge',
@@ -120,6 +121,18 @@ test('Existing PULSE calculations remain available', () => {
   assert.equal(f.outcomeVariance([true, false]), .25);
   assert.equal(f.uniqueCodeRatio(['a', 'a', 'b']), 2 / 3);
   assert.equal(f.flagHighUq(.7, .6), true);
+});
+test('Standalone PULSE module evaluates every catalog entry with object input', () => {
+  const catalog = JSON.parse(readFileSync(new URL('../dist/catalog.json', import.meta.url), 'utf8'));
+  for (const kind of ['metrics', 'rules']) {
+    for (const entry of catalog[kind].filter(item => item.sourceKey === 'pulse')) {
+      const result = kind === 'metrics' ? pulse.evaluatePulseMetric(entry.id, entry.inputExample) : pulse.evaluatePulseRule(entry.id, entry.inputExample);
+      assert.equal(typeof result[kind === 'metrics' ? 'value' : 'triggered'], kind === 'metrics' ? 'number' : 'boolean', entry.id);
+    }
+  }
+  assert.throws(() => pulse.evaluatePulseMetric('P-I01', { pairSimilarities: [.8] }), /implementationVersion/);
+  assert.throws(() => pulse.evaluatePulseMetric('P-I02', { passRates: [] }), /非空/);
+  assert.throws(() => pulse.evaluatePulseRule('P-R04', { semanticGapDetected: false, uq: null, lowUqThreshold: .3 }), /uq/);
 });
 test('Every catalog function signature points to an exported function', () => {
   const catalog = JSON.parse(readFileSync(new URL('../dist/catalog.json', import.meta.url), 'utf8'));

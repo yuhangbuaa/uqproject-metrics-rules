@@ -4,6 +4,8 @@ from __future__ import annotations
 import math
 from typing import Any
 
+from pulse_metrics import evaluate_metric as evaluate_pulse_metric, evaluate_rule as evaluate_pulse_rule
+
 RUBRIC_VERSION = "plancoder-plan-quality-1.0"
 DIMENSIONS = ("feasibility", "relevance", "clarity")
 
@@ -57,39 +59,9 @@ def evaluate_metric(identifier: str, data: dict) -> dict:
     if identifier == "S-I04":
         return {"value": pass_rate_variance(data.get("passRates")), "ddof": 0, "unit": "通过率平方",
                 "interpretation": "同题同测试条件下的结果波动；低方差不代表正确"}
-    if identifier == "P-I01":
-        scores = rates(data.get("pairSimilarities"))
-        if not isinstance(data.get("implementationVersion"), str) or not data["implementationVersion"].strip():
-            raise ValueError("需提供外部 CodeBLEU implementationVersion")
-        return {"value": 1 - sum(scores) / len(scores), "implementationVersion": data["implementationVersion"],
-                "interpretation": "聚合外部提供的全部两两相似度；本服务不运行 CodeBLEU"}
-    if identifier == "P-I02":
-        values = rates(data.get("passRates"))
-        mean = sum(values) / len(values)
-        value = min(sum((x - mean) ** 2 for x in values) / len(values) / 0.25, 1)
-    elif identifier == "P-I03":
-        value = 0.5 * unit(data.get("structuralDifference"), "structuralDifference") + 0.5 * unit(data.get("instability"), "instability")
-    elif identifier in ("P-I05", "P-I06"):
-        values = data.get("successes")
-        if not isinstance(values, list) or not values:
-            raise ValueError("successes 必须是非空布尔数组")
-        p = sum(flag(x, "successes") for x in values) / len(values)
-        value = (0 if p in (0, 1) else -p * math.log2(p) - (1 - p) * math.log2(1 - p)) if identifier == "P-I05" else p * (1 - p)
-    elif identifier in ("P-I04", "P-I07"):
-        codes = data.get("codes")
-        if not isinstance(codes, list) or not codes or any(not isinstance(x, str) for x in codes):
-            raise ValueError("codes 必须是非空字符串数组")
-        if identifier == "P-I07":
-            value = len(set(codes)) / len(codes)
-        else:
-            sets = [{line.strip() for line in code.splitlines() if line.strip()} for code in codes]
-            distances = [1 - len(a & b) / len(a | b) if a | b else 0 for i, a in enumerate(sets) for b in sets[i + 1:]]
-            value = sum(distances) / len(distances) if distances else 0
-    elif identifier == "P-I08":
-        value = unit(data.get("ambiguousUq"), "ambiguousUq") - unit(data.get("clearUq"), "clearUq")
-    else:
-        raise KeyError(identifier)
-    return {"value": value, "interpretation": "研究指标，不是经过校准的失败概率"}
+    if identifier.startswith("P-"):
+        return evaluate_pulse_metric(identifier, data)
+    raise KeyError(identifier)
 
 
 def repair_decision(data: dict) -> dict:
@@ -125,30 +97,9 @@ def evaluate_rule(identifier: str, data: dict) -> dict:
         action = {"S-R04": "repair_plan_and_regenerate_code", "S-R05": "retrieve_by_final_plan_and_repair_code"}.get(identifier)
         result["triggered"] = result["action"] == action if action else result["action"].startswith("return_")
         return result
-    if identifier == "P-R01":
-        triggered = unit(data.get("previousBatchUq"), "previousBatchUq") >= unit(data.get("threshold"), "threshold")
-    elif identifier in ("P-R02", "P-R03"):
-        if not isinstance(data.get("category"), str):
-            raise ValueError("category 必须是字符串")
-        triggered = data["category"] == ("vague" if identifier == "P-R02" else "lexical")
-    elif identifier == "P-R04":
-        semantic = flag(data.get("semanticGapDetected"), "semanticGapDetected")
-        triggered = semantic and unit(data.get("uq"), "uq") <= unit(data.get("lowUqThreshold"), "lowUqThreshold")
-        unit(data.get("uq"), "uq"); unit(data.get("lowUqThreshold"), "lowUqThreshold")
-    elif identifier == "P-R05":
-        checks = data.get("checks")
-        if not isinstance(checks, dict):
-            raise ValueError("checks 必须是对象")
-        keys = ("premiseSupported", "selfContained", "entailed", "historyConsistent", "criticalConditionsComplete")
-        values = [flag(checks.get(k), k) for k in keys]
-        triggered = not all(values)
-    elif identifier == "P-R06":
-        triggered = unit(data.get("uq"), "uq") <= unit(data.get("lowUqThreshold"), "lowUqThreshold") and flag(data.get("criticalConstraintMissing"), "criticalConstraintMissing")
-        flag(data.get("criticalConstraintMissing"), "criticalConstraintMissing")
-    else:
-        raise KeyError(identifier)
-    return {"triggered": triggered, "ruleType": "候选风险条件", "validatedThreshold": False,
-            "interpretation": "仅判断条件；外部识别信号及阈值须另行验证，不输出失败概率"}
+    if identifier.startswith("P-"):
+        return evaluate_pulse_rule(identifier, data)
+    raise KeyError(identifier)
 
 
 def judge_prompt(problem: str, plan: str, visible_tests: list[str], dimensions: list[str]) -> str:

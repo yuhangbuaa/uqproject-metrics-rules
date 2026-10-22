@@ -1,24 +1,24 @@
 {
-  "executedAt": "2026-10-22T14:16:12.842432+08:00",
+  "executedAt": "2026-10-22T15:48:13.115947+08:00",
   "scope": "本机内部自测，非专家或第三方测试",
   "externalModelCalled": false,
   "python": {
     "version": "3.12.14",
-    "tests": 24,
+    "tests": 28,
     "failures": 0,
     "errors": 0,
     "passed": true
   },
   "javascript": {
     "version": "v24.19.0",
-    "tests": 12,
+    "tests": 13,
     "passed": true
   },
   "environment": {
-    "system": "Darwin",
-    "release": "24.4.0",
-    "machine": "arm64",
-    "processor": "arm"
+    "system": "Windows",
+    "release": "10",
+    "machine": "AMD64",
+    "processor": "Intel64 Family 6 Model 151 Stepping 5, GenuineIntel"
   },
   "catalog": {
     "metrics": 12,
@@ -28,11 +28,14 @@
     "plancoderStrategies": 3
   },
   "sourceHashes": {
-    "server.py": "2366775aaeced16e0813ec866156a74678a0b8a7b05b46d1d5e54a9e9ab771ce",
-    "plancoder_metrics.py": "c7ff0d42898c72f93135401ce5bcad2ea4a52ef02bee6093b031fb212d8d890b",
-    "dist/catalog-functions.mjs": "0252ad4c684c4b32242a238698af4dad74fbdd2ba39ce2a56ceced605f452f5e",
-    "dist/catalog.json": "84096fc81babfc9ebce790a41a1ca7c0a514ca29eb00af75b2a8ef58e2f17476",
-    "tests/test_api.py": "ff603bfbd675e32b3e0e68a36c9d2798d453218888216a9b3b0e64d4088917d4",
-    "tests/catalog-functions.test.mjs": "31a9051a978d91d074b3d2bd989b6cc2dd1b4fe4ddc00c820eb0c610b62ba2f9"
+    "server.py": "2dd04aa77c9f48827caa0393d9e1bdac6d0cc0e28139ea390a9dba6977fe0475",
+    "plancoder_metrics.py": "2154a0a604755445f081351cb8cf30e4412f21d2ec89ded280cb50d9e85723c4",
+    "pulse_metrics.py": "3d133140baa1c23c2fb050d0bebfbbca12934a9ce2c205c3b2dd0ae34c41ae86",
+    "dist/catalog-functions.mjs": "17afaa4ae851edde14aa005f78761b66681518b2a15fd57632b8dd0d9c826c53",
+    "dist/pulse-functions.mjs": "e42b86d9981067b49203969c4530c800d6b82ad0db6b15288d12bdbe6c6e960a",
+    "dist/catalog.json": "113feeae11167be4aa3e1126210cf5a2ef4ca0cf01d7203c323938aea606163b",
+    "dist/pulse-evidence.json": "a4b2ad0c80f72c8ec3469256ce397b652ee9d722a856f65b6a44208c84a71e6c",
+    "tests/test_api.py": "85a176d0bd40f578dac9f42f30af0d13ce681cc0bba75f3ba1ededfd31ad1417",
+    "tests/catalog-functions.test.mjs": "498048f41f3837415a416085ae16a9ab60f4dac661bc59f8d6bb87fefe5a1bbe"
   }
 }

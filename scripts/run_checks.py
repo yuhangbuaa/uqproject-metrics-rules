@@ -25,7 +25,7 @@ evidence = {"executedAt": datetime.datetime.now(datetime.timezone(datetime.timed
     "javascript": {"version": subprocess.check_output([args.node, "--version"], text=True).strip(), "tests": node_tests, "passed": node.returncode == 0},
     "environment": {"system": platform.system(), "release": platform.release(), "machine": platform.machine(), "processor": platform.processor()},
     "catalog": {"metrics": 12, "rules": 12, "plancoderMetrics": 4, "plancoderRiskHypotheses": 3, "plancoderStrategies": 3},
-    "sourceHashes": {str(p.relative_to(ROOT)).replace("\\", "/"): hashlib.sha256(p.read_bytes()).hexdigest() for p in [ROOT / "server.py", ROOT / "plancoder_metrics.py", ROOT / "dist/catalog-functions.mjs", ROOT / "dist/catalog.json", ROOT / "tests/test_api.py", ROOT / "tests/catalog-functions.test.mjs"]}}
+    "sourceHashes": {str(p.relative_to(ROOT)).replace("\\", "/"): hashlib.sha256(p.read_bytes()).hexdigest() for p in [ROOT / "server.py", ROOT / "plancoder_metrics.py", ROOT / "pulse_metrics.py", ROOT / "dist/catalog-functions.mjs", ROOT / "dist/pulse-functions.mjs", ROOT / "dist/catalog.json", ROOT / "dist/pulse-evidence.json", ROOT / "tests/test_api.py", ROOT / "tests/catalog-functions.test.mjs"]}}
 work = ROOT / ".work/midterm"; work.mkdir(parents=True, exist_ok=True)
 (work / "python-tests.txt").write_text(stream.getvalue(), encoding="utf-8")
 (work / "javascript-tests.txt").write_text(node.stdout + node.stderr, encoding="utf-8")

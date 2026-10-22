@@ -12,6 +12,7 @@ from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from plancoder_metrics import evaluate_metric, evaluate_rule, judge_prompt, repair_decision
+from pulse_metrics import evaluate_metric as evaluate_pulse_metric, evaluate_rule as evaluate_pulse_rule
 from server import Handler, ThreadingHTTPServer, score_plan
 
 
@@ -66,6 +67,25 @@ class RuleTests(unittest.TestCase):
 
     def test_strategy_not_prediction(self):
         self.assertEqual(evaluate_rule("S-R04", {"publicPassed": False, "planRepairs": 0, "codeRepairs": 0})["ruleType"], "修复策略")
+
+
+class PulseLibraryTests(unittest.TestCase):
+    def test_all_catalog_examples_have_callable_python_entries(self):
+        catalog = json.loads((Path(__file__).resolve().parents[1] / "dist/catalog.json").read_text(encoding="utf-8"))
+        for kind in ("metrics", "rules"):
+            for item in catalog[kind]:
+                if item["sourceKey"] != "pulse":
+                    continue
+                with self.subTest(identifier=item["id"]):
+                    result = (evaluate_pulse_metric if kind == "metrics" else evaluate_pulse_rule)(item["id"], item["inputExample"])
+                    self.assertIn("value" if kind == "metrics" else "triggered", result)
+
+    def test_external_signals_and_thresholds_are_required(self):
+        with self.assertRaises(ValueError): evaluate_pulse_metric("P-I01", {"pairSimilarities": [0.8]})
+        with self.assertRaises(ValueError): evaluate_pulse_metric("P-I02", {"passRates": []})
+        with self.assertRaises(ValueError): evaluate_pulse_rule("P-R04", {"semanticGapDetected": False, "uq": None, "lowUqThreshold": .3})
+        with self.assertRaises(ValueError): evaluate_pulse_rule("P-R05", {"checks": {"premiseSupported": False}})
+        with self.assertRaises(ValueError): evaluate_pulse_rule("P-R06", {"uq": .1, "lowUqThreshold": .3})
 
 
 class JudgeTests(unittest.TestCase):
@@ -141,6 +161,23 @@ class ApiTests(unittest.TestCase):
     def test_openapi_and_evidence(self):
         self.assertEqual(self.call("/api/v1/openapi.json")[1]["openapi"], "3.1.0")
         self.assertEqual(len(self.call("/api/v1/evidence")[1]["results"]), 32)
+        self.assertEqual(self.call("/api/v1/pulse/evidence")[1]["budget"]["ambiguousCases"], 520)
+
+    def test_pulse_entry_endpoints_use_the_standalone_library(self):
+        status, result = self.call("/api/v1/metrics/P-I02/evaluate", {"passRates": [0, .5, 1]})
+        self.assertEqual(status, 200)
+        self.assertAlmostEqual(result["result"]["value"], 2 / 3)
+        status, result = self.call("/api/v1/rules/P-R04/evaluate", {"semanticGapDetected": True, "uq": .2, "lowUqThreshold": .3})
+        self.assertEqual(status, 200)
+        self.assertTrue(result["result"]["triggered"])
+
+    def test_pulse_page_and_module_are_served(self):
+        for path, expected in (("/pulse.html", "PULSE 需求端不确定性感知"),
+                               ("/pulse-functions.mjs", "evaluatePulseMetric"),
+                               ("/pulse-evidence.json", "clusterCi95Pp")):
+            with self.subTest(path=path), urllib.request.urlopen(self.base + path, timeout=5) as response:
+                self.assertEqual(response.status, 200)
+                self.assertIn(expected, response.read().decode("utf-8"))
 
     def test_judge_disabled_status(self):
         with patch.dict(os.environ, {"PLAN_JUDGE_ENABLED": "0"}):

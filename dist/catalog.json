@@ -27,6 +27,12 @@
       "strategies": 3,
       "paperStatus": "论文稿；未提供录用证明",
       "evidenceUrl": "./plancoder-evidence.json"
+    },
+    "pulse": {
+      "metrics": 8,
+      "riskConditions": 6,
+      "evidenceUrl": "./pulse-evidence.json",
+      "moduleUrl": "./pulse-functions.mjs"
     }
   },
   "metrics": [
@@ -48,7 +54,15 @@
       "sourceKey": "pulse",
       "entryType": "不确定性度量",
       "countingStatus": "独立条目与验收计数待核定",
-      "apiPath": "/api/v1/metrics/P-I01/evaluate"
+      "apiPath": "/api/v1/metrics/P-I01/evaluate",
+      "inputExample": {
+        "pairSimilarities": [
+          0.8,
+          0.6,
+          0.7
+        ],
+        "implementationVersion": "synthetic-example-not-real-CodeBLEU"
+      }
     },
     {
       "id": "P-I02",
@@ -69,7 +83,14 @@
       "entryType": "不确定性度量",
       "countingStatus": "独立条目与验收计数待核定",
       "apiPath": "/api/v1/metrics/P-I02/evaluate",
-      "family": "test-pass-variation"
+      "family": "test-pass-variation",
+      "inputExample": {
+        "passRates": [
+          0,
+          0.5,
+          1
+        ]
+      }
     },
     {
       "id": "P-I03",
@@ -89,7 +110,11 @@
       "sourceKey": "pulse",
       "entryType": "不确定性度量",
       "countingStatus": "独立条目与验收计数待核定",
-      "apiPath": "/api/v1/metrics/P-I03/evaluate"
+      "apiPath": "/api/v1/metrics/P-I03/evaluate",
+      "inputExample": {
+        "structuralDifference": 0.4,
+        "instability": 0.2
+      }
     },
     {
       "id": "P-I04",
@@ -109,7 +134,13 @@
       "sourceKey": "pulse",
       "entryType": "不确定性度量",
       "countingStatus": "独立条目与验收计数待核定",
-      "apiPath": "/api/v1/metrics/P-I04/evaluate"
+      "apiPath": "/api/v1/metrics/P-I04/evaluate",
+      "inputExample": {
+        "codes": [
+          "return a + b",
+          "return b + a"
+        ]
+      }
     },
     {
       "id": "P-I05",
@@ -129,7 +160,14 @@
       "sourceKey": "pulse",
       "entryType": "不确定性度量",
       "countingStatus": "独立条目与验收计数待核定",
-      "apiPath": "/api/v1/metrics/P-I05/evaluate"
+      "apiPath": "/api/v1/metrics/P-I05/evaluate",
+      "inputExample": {
+        "successes": [
+          true,
+          false,
+          true
+        ]
+      }
     },
     {
       "id": "P-I06",
@@ -149,7 +187,14 @@
       "sourceKey": "pulse",
       "entryType": "不确定性度量",
       "countingStatus": "独立条目与验收计数待核定",
-      "apiPath": "/api/v1/metrics/P-I06/evaluate"
+      "apiPath": "/api/v1/metrics/P-I06/evaluate",
+      "inputExample": {
+        "successes": [
+          true,
+          false,
+          true
+        ]
+      }
     },
     {
       "id": "P-I07",
@@ -169,7 +214,14 @@
       "sourceKey": "pulse",
       "entryType": "不确定性度量",
       "countingStatus": "独立条目与验收计数待核定",
-      "apiPath": "/api/v1/metrics/P-I07/evaluate"
+      "apiPath": "/api/v1/metrics/P-I07/evaluate",
+      "inputExample": {
+        "codes": [
+          "return a",
+          "return a",
+          "return b"
+        ]
+      }
     },
     {
       "id": "P-I08",
@@ -189,7 +241,11 @@
       "sourceKey": "pulse",
       "entryType": "不确定性度量",
       "countingStatus": "独立条目与验收计数待核定",
-      "apiPath": "/api/v1/metrics/P-I08/evaluate"
+      "apiPath": "/api/v1/metrics/P-I08/evaluate",
+      "inputExample": {
+        "ambiguousUq": 0.5,
+        "clearUq": 0.2
+      }
     },
     {
       "id": "S-I01",
@@ -343,7 +399,11 @@
       "sourceKey": "pulse",
       "entryType": "候选风险条件",
       "countingStatus": "独立条目与验收计数待核定",
-      "apiPath": "/api/v1/rules/P-R01/evaluate"
+      "apiPath": "/api/v1/rules/P-R01/evaluate",
+      "inputExample": {
+        "previousBatchUq": 0.7,
+        "threshold": 0.6
+      }
     },
     {
       "id": "P-R02",
@@ -363,7 +423,10 @@
       "sourceKey": "pulse",
       "entryType": "候选风险条件",
       "countingStatus": "独立条目与验收计数待核定",
-      "apiPath": "/api/v1/rules/P-R02/evaluate"
+      "apiPath": "/api/v1/rules/P-R02/evaluate",
+      "inputExample": {
+        "category": "vague"
+      }
     },
     {
       "id": "P-R03",
@@ -383,7 +446,10 @@
       "sourceKey": "pulse",
       "entryType": "候选风险条件",
       "countingStatus": "独立条目与验收计数待核定",
-      "apiPath": "/api/v1/rules/P-R03/evaluate"
+      "apiPath": "/api/v1/rules/P-R03/evaluate",
+      "inputExample": {
+        "category": "lexical"
+      }
     },
     {
       "id": "P-R04",
@@ -403,7 +469,12 @@
       "sourceKey": "pulse",
       "entryType": "候选风险条件",
       "countingStatus": "独立条目与验收计数待核定",
-      "apiPath": "/api/v1/rules/P-R04/evaluate"
+      "apiPath": "/api/v1/rules/P-R04/evaluate",
+      "inputExample": {
+        "semanticGapDetected": true,
+        "uq": 0.2,
+        "lowUqThreshold": 0.3
+      }
     },
     {
       "id": "P-R05",
@@ -423,7 +494,16 @@
       "sourceKey": "pulse",
       "entryType": "候选风险条件",
       "countingStatus": "独立条目与验收计数待核定",
-      "apiPath": "/api/v1/rules/P-R05/evaluate"
+      "apiPath": "/api/v1/rules/P-R05/evaluate",
+      "inputExample": {
+        "checks": {
+          "premiseSupported": false,
+          "selfContained": true,
+          "entailed": true,
+          "historyConsistent": true,
+          "criticalConditionsComplete": true
+        }
+      }
     },
     {
       "id": "P-R06",
@@ -443,7 +523,12 @@
       "sourceKey": "pulse",
       "entryType": "候选风险条件",
       "countingStatus": "独立条目与验收计数待核定",
-      "apiPath": "/api/v1/rules/P-R06/evaluate"
+      "apiPath": "/api/v1/rules/P-R06/evaluate",
+      "inputExample": {
+        "uq": 0.2,
+        "lowUqThreshold": 0.3,
+        "criticalConstraintMissing": true
+      }
     },
     {
       "id": "S-R01",

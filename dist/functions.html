@@ -23,19 +23,21 @@
     <main class="source-page">
       <a class="source-back" href="./index.html#catalog">← 返回指标与规则目录</a>
       <h1 id="sourceTitle">函数定义</h1>
-      <p class="source-intro">这里展示可下载调用的完整函数模块，包含共用依赖。PlanCoder 的三个质量评分函数接收 apiKey、baseUrl、model 及任务与计划，使用 await 获取模型实际评分和理由；Node.js 18+ 可直接调用，浏览器调用需要服务支持跨域。规则函数返回条件标记。P-I01 的 CodeBLEU 相似度由调用方提供。</p>
-      <a class="source-back" href="./catalog-functions.mjs" download>下载函数模块 ↓</a>
+      <p class="source-intro">这里展示所选条目的函数模块。PULSE 模块可独立导入，生成结果、需求类别与澄清核对信号由调用方提供；P-I01 的 CodeBLEU 相似度也由调用方提供。PlanCoder 的三个质量评分函数接收 apiKey、baseUrl、model 及任务与计划，使用 await 获取模型实际评分和理由；浏览器调用需要模型服务支持跨域。规则函数只返回条件标记。</p>
+      <a class="source-back" id="sourceDownload" href="./catalog-functions.mjs" download>下载函数模块 ↓</a>
       <div class="source-meta"><span>UTF-8 显式解码</span><span>浏览器本地读取</span><span id="sourceStatus">正在载入…</span></div>
       <div class="source-frame"><pre id="sourceCode" aria-label="函数源码">正在载入函数定义…</pre></div>
     </main>
     <script>
       (async () => {
         const requested = new URLSearchParams(location.search).get('name') || '';
+        const modulePath = new URLSearchParams(location.search).get('source') === 'pulse' ? './pulse-functions.mjs' : './catalog-functions.mjs';
         const title = document.getElementById('sourceTitle');
         const status = document.getElementById('sourceStatus');
         const code = document.getElementById('sourceCode');
+        document.getElementById('sourceDownload').href = modulePath;
         try {
-          const response = await fetch('./catalog-functions.mjs', { cache: 'no-store' });
+          const response = await fetch(modulePath, { cache: 'no-store' });
           if (!response.ok) throw new Error(`HTTP ${response.status}`);
           const source = new TextDecoder('utf-8', { fatal: true }).decode(await response.arrayBuffer()).replace(/^\uFEFF/, '');
           code.textContent = '';
@@ -59,7 +61,7 @@
             status.textContent = '完整函数模块';
           }
         } catch (error) {
-          code.textContent = `函数源码加载失败：${error.message}。请从本地启动脚本访问页面，并确认 catalog-functions.mjs 文件完整。`;
+          code.textContent = `函数源码加载失败：${error.message}。请从本地启动脚本访问页面，并确认函数模块文件完整。`;
           code.classList.add('source-error');
           status.textContent = '加载失败';
         }

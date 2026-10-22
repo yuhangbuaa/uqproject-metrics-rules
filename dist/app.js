@@ -30,8 +30,8 @@ function functionBlock(item, isMetric) {
     <code>${escapeHtml(item.functionSignature)}</code><p>${escapeHtml(item.functionNote)}</p>
     ${item.functionReturns ? `<h4 class="function-subtitle">返回值</h4><p>${escapeHtml(item.functionReturns)}</p>` : ""}
     ${item.functionExample ? `<h4 class="function-subtitle">调用示例 · Node.js</h4><pre class="function-example"><code>${escapeHtml(item.functionExample)}</code></pre>` : ""}
-    <a href="./functions.html?name=${encodeURIComponent(functionName)}" target="_blank" rel="noopener">查看函数定义 ↗</a>
-    ${item.functionExecution === "model" ? `<a class="function-download" href="./catalog-functions.mjs" download>下载函数模块 ↓</a>` : ""}</div>`;
+    <a href="./functions.html?name=${encodeURIComponent(functionName)}${item.sourceKey === "pulse" ? "&source=pulse" : ""}" target="_blank" rel="noopener">查看函数定义 ↗</a>
+    ${item.functionExecution === "model" || item.sourceKey === "pulse" ? `<a class="function-download" href="./${item.sourceKey === "pulse" ? "pulse-functions.mjs" : "catalog-functions.mjs"}" download>下载函数模块 ↓</a>` : ""}</div>`;
 }
 
 function renderDetail(item) {
@@ -64,11 +64,16 @@ function renderDetail(item) {
   if (item.inputExample && !isModelFunction) $("runDemo").addEventListener("click", async () => {
     try {
       const input = JSON.parse($("demoInput").value);
-      const functions = await import("./catalog-functions.mjs");
       let value;
-      if (item.id === "S-I04") value = functions.planPassRateVariance(input.passRates);
-      else if (["S-R01", "S-R02", "S-R03"].includes(item.id)) value = functions.flagLowPlanQuality(input.score, input.threshold);
-      else value = { triggered: functions[item.functionSignature.split("(")[0]](input), action: functions.planCoderDecision(input) };
+      if (item.sourceKey === "pulse") {
+        const pulse = await import("./pulse-functions.mjs");
+        value = isMetric ? pulse.evaluatePulseMetric(item.id, input) : pulse.evaluatePulseRule(item.id, input);
+      } else {
+        const functions = await import("./catalog-functions.mjs");
+        if (item.id === "S-I04") value = functions.planPassRateVariance(input.passRates);
+        else if (["S-R01", "S-R02", "S-R03"].includes(item.id)) value = functions.flagLowPlanQuality(input.score, input.threshold);
+        else value = { triggered: functions[item.functionSignature.split("(")[0]](input), action: functions.planCoderDecision(input) };
+      }
       $("demoOutput").textContent = JSON.stringify({ id: item.id, result: value, inputType: "用户提供或合成输入", interpretation: "不输出经过校准的失败概率" }, null, 2);
     } catch (error) { $("demoOutput").textContent = `输入错误：${error.message}`; }
   });

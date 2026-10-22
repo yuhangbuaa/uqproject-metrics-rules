@@ -13,6 +13,7 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 from plancoder_metrics import DIMENSIONS, RUBRIC_VERSION, evaluate_metric, evaluate_rule, judge_prompt, plan_quality, repair_decision
+from pulse_metrics import evaluate_metric as evaluate_pulse_metric, evaluate_rule as evaluate_pulse_rule
 
 ROOT = Path(__file__).resolve().parent
 DIST = ROOT / "dist"
@@ -91,6 +92,8 @@ class Handler(SimpleHTTPRequestHandler):
             return self.json_response(200, {"status": "ok", "version": "1.0.0", "judgeAvailable": judge_available(), "catalogDate": data["meta"]["asOf"]})
         if path == "/api/v1/catalog":
             return self.json_response(200, data)
+        if path == "/api/v1/pulse/evidence":
+            return self.json_response(200, load_json("pulse-evidence.json"))
         if path in ("/api/v1/evidence", "/api/v1/openapi.json"):
             return self.json_response(200, load_json("plancoder-evidence.json" if path.endswith("evidence") else "openapi.json"))
         match = re.fullmatch(r"/api/v1/(metrics|rules)(?:/([A-Z]-[IR]\d{2}))?", path)
@@ -134,7 +137,10 @@ class Handler(SimpleHTTPRequestHandler):
             kind, identifier = match.groups()
             if not any(x["id"] == identifier for x in load_json("catalog.json")[kind]):
                 return self.json_response(404, {"error": "条目不存在"})
-            result = (evaluate_metric if kind == "metrics" else evaluate_rule)(identifier, data)
+            if identifier.startswith("P-"):
+                result = (evaluate_pulse_metric if kind == "metrics" else evaluate_pulse_rule)(identifier, data)
+            else:
+                result = (evaluate_metric if kind == "metrics" else evaluate_rule)(identifier, data)
             self.json_response(200, {"id": identifier, "result": result, "implementationVersion": "1.0.0"})
         except (ValueError, TypeError, KeyError, UnicodeDecodeError) as exc:
             self.json_response(400, {"error": str(exc)})

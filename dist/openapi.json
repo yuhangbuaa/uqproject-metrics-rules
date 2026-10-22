@@ -84,6 +84,30 @@
         }
       }
     },
+    "/api/v1/pulse/evidence": {
+      "get": {
+        "summary": "PULSE 归档诊断 澄清与固定预算证据摘要",
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON 或输入参数无效"
+          },
+          "404": {
+            "description": "未知条目或接口"
+          }
+        }
+      }
+    },
     "/api/v1/openapi.json": {
       "get": {
         "summary": "本接口描述",
@@ -322,6 +346,14 @@
               "schema": {
                 "type": "object",
                 "additionalProperties": true
+              },
+              "example": {
+                "pairSimilarities": [
+                  0.8,
+                  0.6,
+                  0.7
+                ],
+                "implementationVersion": "synthetic-example-not-real-CodeBLEU"
               }
             }
           }
@@ -388,6 +420,13 @@
               "schema": {
                 "type": "object",
                 "additionalProperties": true
+              },
+              "example": {
+                "passRates": [
+                  0,
+                  0.5,
+                  1
+                ]
               }
             }
           }
@@ -454,6 +493,10 @@
               "schema": {
                 "type": "object",
                 "additionalProperties": true
+              },
+              "example": {
+                "structuralDifference": 0.4,
+                "instability": 0.2
               }
             }
           }
@@ -520,6 +563,12 @@
               "schema": {
                 "type": "object",
                 "additionalProperties": true
+              },
+              "example": {
+                "codes": [
+                  "return a + b",
+                  "return b + a"
+                ]
               }
             }
           }
@@ -586,6 +635,13 @@
               "schema": {
                 "type": "object",
                 "additionalProperties": true
+              },
+              "example": {
+                "successes": [
+                  true,
+                  false,
+                  true
+                ]
               }
             }
           }
@@ -652,6 +708,13 @@
               "schema": {
                 "type": "object",
                 "additionalProperties": true
+              },
+              "example": {
+                "successes": [
+                  true,
+                  false,
+                  true
+                ]
               }
             }
           }
@@ -718,6 +781,13 @@
               "schema": {
                 "type": "object",
                 "additionalProperties": true
+              },
+              "example": {
+                "codes": [
+                  "return a",
+                  "return a",
+                  "return b"
+                ]
               }
             }
           }
@@ -784,6 +854,10 @@
               "schema": {
                 "type": "object",
                 "additionalProperties": true
+              },
+              "example": {
+                "ambiguousUq": 0.5,
+                "clearUq": 0.2
               }
             }
           }
@@ -1200,6 +1274,10 @@
               "schema": {
                 "type": "object",
                 "additionalProperties": true
+              },
+              "example": {
+                "previousBatchUq": 0.7,
+                "threshold": 0.6
               }
             }
           }
@@ -1266,6 +1344,9 @@
               "schema": {
                 "type": "object",
                 "additionalProperties": true
+              },
+              "example": {
+                "category": "vague"
               }
             }
           }
@@ -1332,6 +1413,9 @@
               "schema": {
                 "type": "object",
                 "additionalProperties": true
+              },
+              "example": {
+                "category": "lexical"
               }
             }
           }
@@ -1398,6 +1482,11 @@
               "schema": {
                 "type": "object",
                 "additionalProperties": true
+              },
+              "example": {
+                "semanticGapDetected": true,
+                "uq": 0.2,
+                "lowUqThreshold": 0.3
               }
             }
           }
@@ -1464,6 +1553,15 @@
               "schema": {
                 "type": "object",
                 "additionalProperties": true
+              },
+              "example": {
+                "checks": {
+                  "premiseSupported": false,
+                  "selfContained": true,
+                  "entailed": true,
+                  "historyConsistent": true,
+                  "criticalConditionsComplete": true
+                }
               }
             }
           }
@@ -1530,6 +1628,11 @@
               "schema": {
                 "type": "object",
                 "additionalProperties": true
+              },
+              "example": {
+                "uq": 0.2,
+                "lowUqThreshold": 0.3,
+                "criticalConstraintMissing": true
               }
             }
           }
