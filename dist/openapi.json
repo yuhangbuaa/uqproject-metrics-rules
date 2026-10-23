@@ -289,7 +289,7 @@
     },
     "/api/v1/metrics/P-I01": {
       "get": {
-        "summary": "生成代码结构差异度 定义与证据",
+        "summary": "多次生成代码的差异程度 定义与证据",
         "responses": {
           "200": {
             "description": "成功",
@@ -313,7 +313,7 @@
     },
     "/api/v1/metrics/P-I01/evaluate": {
       "post": {
-        "summary": "生成代码结构差异度 计算或条件判断",
+        "summary": "多次生成代码的差异程度 计算或条件判断",
         "responses": {
           "200": {
             "description": "成功",
@@ -358,12 +358,12 @@
             }
           }
         },
-        "description": "同一需求的 K 份生成代码。CodeBLEU 数据流分量受 Python 哈希顺序影响；展示或复算时必须标识实现与环境版本。"
+        "description": "同一道题多次生成的代码，以及计算两份代码相似程度的工具。不同版本或运行环境可能算出不同的相似程度；复算时须记录所用工具和环境。代码写法不同也不一定表示功能不同。"
       }
     },
     "/api/v1/metrics/P-I02": {
       "get": {
-        "summary": "断言通过率不稳定度 定义与证据",
+        "summary": "多次生成代码的测试表现波动 定义与证据",
         "responses": {
           "200": {
             "description": "成功",
@@ -387,7 +387,7 @@
     },
     "/api/v1/metrics/P-I02/evaluate": {
       "post": {
-        "summary": "断言通过率不稳定度 计算或条件判断",
+        "summary": "多次生成代码的测试表现波动 计算或条件判断",
         "responses": {
           "200": {
             "description": "成功",
@@ -431,12 +431,12 @@
             }
           }
         },
-        "description": "K 份候选代码及同一测试集上的逐候选断言结果。结果依赖测试质量；稳定地全部失败时，该指标也可能很低。"
+        "description": "同一道题多次生成的代码，以及每份代码在同一组测试中的通过比例。结果依赖测试质量；稳定地全部失败时，该指标也可能很低。"
       }
     },
     "/api/v1/metrics/P-I03": {
       "get": {
-        "summary": "需求条件化综合不确定性 定义与证据",
+        "summary": "代码差异与测试波动综合分数 定义与证据",
         "responses": {
           "200": {
             "description": "成功",
@@ -460,7 +460,7 @@
     },
     "/api/v1/metrics/P-I03/evaluate": {
       "post": {
-        "summary": "需求条件化综合不确定性 计算或条件判断",
+        "summary": "代码差异与测试波动综合分数 计算或条件判断",
         "responses": {
           "200": {
             "description": "成功",
@@ -501,12 +501,12 @@
             }
           }
         },
-        "description": "P-I01 与 P-I02 的计算结果。该分数不是代码错误概率；稳定错误理解可能得低分。"
+        "description": "P-I01 与 P-I02 的计算结果。分数低不代表代码一定正确；如果每次都以相同方式误解需求，分数也可能很低。"
       }
     },
     "/api/v1/metrics/P-I04": {
       "get": {
-        "summary": "代码行集合差异度 定义与证据",
+        "summary": "代码行的差异程度 定义与证据",
         "responses": {
           "200": {
             "description": "成功",
@@ -530,7 +530,7 @@
     },
     "/api/v1/metrics/P-I04/evaluate": {
       "post": {
-        "summary": "代码行集合差异度 计算或条件判断",
+        "summary": "代码行的差异程度 计算或条件判断",
         "responses": {
           "200": {
             "description": "成功",
@@ -573,12 +573,12 @@
             }
           }
         },
-        "description": "同一需求的 K 份代码文本。代码行变化不一定代表语义变化，与 P-I01 可能重复。"
+        "description": "同一需求的 K 份代码文本。代码行不同不一定表示程序功能不同，也可能与 P-I01 重复。"
       }
     },
     "/api/v1/metrics/P-I05": {
       "get": {
-        "summary": "候选成败熵 定义与证据",
+        "summary": "多次生成结果的成败混合程度 定义与证据",
         "responses": {
           "200": {
             "description": "成功",
@@ -602,7 +602,7 @@
     },
     "/api/v1/metrics/P-I05/evaluate": {
       "post": {
-        "summary": "候选成败熵 计算或条件判断",
+        "summary": "多次生成结果的成败混合程度 计算或条件判断",
         "responses": {
           "200": {
             "description": "成功",
@@ -646,12 +646,12 @@
             }
           }
         },
-        "description": "K 次生成是否通过全部测试；p 为通过比例。全部失败和全部通过时同为 0；与 P-I06 使用相同原始信息。"
+        "description": "同一道题每次生成的代码是否通过全部测试。全失败和全成功都会得到 0，必须结合实际通过情况解读；它与 P-I06 使用同一批成败记录。"
       }
     },
     "/api/v1/metrics/P-I06": {
       "get": {
-        "summary": "候选成败方差 定义与证据",
+        "summary": "多次生成结果的成败波动分数 定义与证据",
         "responses": {
           "200": {
             "description": "成功",
@@ -675,7 +675,7 @@
     },
     "/api/v1/metrics/P-I06/evaluate": {
       "post": {
-        "summary": "候选成败方差 计算或条件判断",
+        "summary": "多次生成结果的成败波动分数 计算或条件判断",
         "responses": {
           "200": {
             "description": "成功",
@@ -724,7 +724,7 @@
     },
     "/api/v1/metrics/P-I07": {
       "get": {
-        "summary": "候选代码唯一比例 定义与证据",
+        "summary": "不同代码文本所占比例 定义与证据",
         "responses": {
           "200": {
             "description": "成功",
@@ -748,7 +748,7 @@
     },
     "/api/v1/metrics/P-I07/evaluate": {
       "post": {
-        "summary": "候选代码唯一比例 计算或条件判断",
+        "summary": "不同代码文本所占比例 计算或条件判断",
         "responses": {
           "200": {
             "description": "成功",
@@ -792,12 +792,12 @@
             }
           }
         },
-        "description": "同一需求的 K 份生成代码。字符串不同不等于行为或语义不同。"
+        "description": "同一需求的 K 份生成代码。文字不同不一定表示程序做的事情不同。"
       }
     },
     "/api/v1/metrics/P-I08": {
       "get": {
-        "summary": "条件变化 UQ 增量 定义与证据",
+        "summary": "需求表述变化后的综合分数差值 定义与证据",
         "responses": {
           "200": {
             "description": "成功",
@@ -821,7 +821,7 @@
     },
     "/api/v1/metrics/P-I08/evaluate": {
       "post": {
-        "summary": "条件变化 UQ 增量 计算或条件判断",
+        "summary": "需求表述变化后的综合分数差值 计算或条件判断",
         "responses": {
           "200": {
             "description": "成功",
@@ -862,7 +862,7 @@
             }
           }
         },
-        "description": "配对的明确与歧义需求、相同测试条件下的生成结果。无明确需求参照时不能计算；它是 P-I03 的差分分析量。"
+        "description": "同一道题的含糊版与明确版需求，以及在相同测试条件下得到的综合分数。没有明确需求作参照就无法计算；它由 P-I03 的综合分数进一步比较得到。"
       }
     },
     "/api/v1/metrics/S-I01": {
@@ -1092,7 +1092,7 @@
     },
     "/api/v1/metrics/S-I04": {
       "get": {
-        "summary": "代码通过率方差 定义与证据",
+        "summary": "多次生成代码的测试通过率波动 定义与证据",
         "responses": {
           "200": {
             "description": "成功",
@@ -1116,7 +1116,7 @@
     },
     "/api/v1/metrics/S-I04/evaluate": {
       "post": {
-        "summary": "代码通过率方差 计算或条件判断",
+        "summary": "多次生成代码的测试通过率波动 计算或条件判断",
         "responses": {
           "200": {
             "description": "成功",
@@ -1217,7 +1217,7 @@
     },
     "/api/v1/rules/P-R01": {
       "get": {
-        "summary": "高 UQ 的后续功能失败风险 定义与证据",
+        "summary": "综合分数较高时的后续失败风险 定义与证据",
         "responses": {
           "200": {
             "description": "成功",
@@ -1241,7 +1241,7 @@
     },
     "/api/v1/rules/P-R01/evaluate": {
       "post": {
-        "summary": "高 UQ 的后续功能失败风险 计算或条件判断",
+        "summary": "综合分数较高时的后续失败风险 计算或条件判断",
         "responses": {
           "200": {
             "description": "成功",
@@ -1282,7 +1282,7 @@
             }
           }
         },
-        "description": "旧批次 UQ 和预先固定的分位阈值；下一批生成结果仅用于后续验证。分组结果是事后探索性描述，尚无预先固定阈值、区间或独立任务验证。"
+        "description": "前一批代码的综合分数和事先确定的高分界线；下一批结果仅用于事后验证。分组结果是事后探索性描述，尚无预先固定阈值、区间或独立任务验证。"
       }
     },
     "/api/v1/rules/P-R02": {
@@ -1425,7 +1425,7 @@
     },
     "/api/v1/rules/P-R04": {
       "get": {
-        "summary": "低 UQ 下的语义风险保留 定义与证据",
+        "summary": "综合分数低时仍可能遗漏关键需求 定义与证据",
         "responses": {
           "200": {
             "description": "成功",
@@ -1449,7 +1449,7 @@
     },
     "/api/v1/rules/P-R04/evaluate": {
       "post": {
-        "summary": "低 UQ 下的语义风险保留 计算或条件判断",
+        "summary": "综合分数低时仍可能遗漏关键需求 计算或条件判断",
         "responses": {
           "200": {
             "description": "成功",
@@ -1491,7 +1491,7 @@
             }
           }
         },
-        "description": "语义歧义识别结果与综合 UQ。尚无可靠的自动关键语义缺口识别器；可能属于歧义类型规则的特例。"
+        "description": "对关键需求是否表达清楚的检查结果，以及综合分数。尚无可靠的自动关键语义缺口识别器；可能属于歧义类型规则的特例。"
       }
     },
     "/api/v1/rules/P-R05": {
@@ -1571,7 +1571,7 @@
     },
     "/api/v1/rules/P-R06": {
       "get": {
-        "summary": "低 UQ 下的稳定错误理解风险 定义与证据",
+        "summary": "结果看似稳定却持续误解需求的风险 定义与证据",
         "responses": {
           "200": {
             "description": "成功",
@@ -1595,7 +1595,7 @@
     },
     "/api/v1/rules/P-R06/evaluate": {
       "post": {
-        "summary": "低 UQ 下的稳定错误理解风险 计算或条件判断",
+        "summary": "结果看似稳定却持续误解需求的风险 计算或条件判断",
         "responses": {
           "200": {
             "description": "成功",
@@ -1637,7 +1637,7 @@
             }
           }
         },
-        "description": "综合 UQ 与未来待建立的约束缺口检测结果。当前不能在生成前可靠检测决定性约束缺失；不能以已观察的失败反向充作预测条件。"
+        "description": "综合分数，以及尚待建立的重要需求条件遗漏检查结果。当前不能在生成前可靠检测决定性约束缺失；不能以已观察的失败反向充作预测条件。"
       }
     },
     "/api/v1/rules/S-R01": {
