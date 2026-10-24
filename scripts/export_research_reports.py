@@ -170,10 +170,16 @@ def format_styles(styles):
         "TOCHeading": (dict(before=180, after=160, align="center"), dict(chinese="黑体", western="黑体", points=14, color="000000"), True),
         "Compact": (dict(align="left"), dict(chinese="宋体", western="Times New Roman", points=10.5), False),
         "Table": (dict(align="left"), dict(chinese="宋体", western="Times New Roman", points=10.5), False),
+        "CaptionedFigure": (dict(before=120, after=0, align="center"), dict(chinese="宋体", western="Times New Roman", points=10.5), False),
+        "ImageCaption": (dict(before=40, after=120, align="center"), dict(chinese="宋体", western="Times New Roman", points=10.5), False),
     }
     for sid, (ppr, font, bold) in specs.items():
         if sid in style_map:
             style_properties(style_map[sid], ppr, font, bold)
+    if "CaptionedFigure" in style_map:
+        ensure(ensure(style_map["CaptionedFigure"], "pPr"), "keepNext")
+    if "ImageCaption" in style_map:
+        setv(ensure(ensure(style_map["ImageCaption"], "rPr"), "i"), "val", 0)
     if "SourceCode" in style_map:
         set_code_paragraph(ensure(style_map["SourceCode"], "pPr"))
     for sid, level in (("TOC1", 1), ("TOC2", 2)):
