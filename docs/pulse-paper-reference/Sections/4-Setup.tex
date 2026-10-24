@@ -1,0 +1,33 @@
+\section{Experimental Setup}\label{sec:setup}
+
+
+
+We evaluate our \textsc{Pulse} by addressing the following four research questions (RQ).
+\begin{itemize}[leftmargin=1em]
+\item \textbf{RQ1: Overall Effectiveness.}
+To what extent does requirement clarification with \textsc{Pulse} improve the performance of function-level code generation?
+\item \textbf{RQ2: Uncertainty Quantification.}
+To what extent can our proposed uncertainty quantification serve as effective signals for requirement clarification?
+\item \textbf{RQ3: Uncertainty Prediction.}
+Does our lightweight classifier outperform LLM-based uncertainty assessment?
+\item \textbf{RQ4: Generalization.}
+To what extent can our \textsc{Pulse} trained on function-level datasets generalize to project-level code generation scenarios?
+\end{itemize}
+
+
+
+\subsection{Datasets}
+For RQ1--RQ3, we use three widely used function-level code generation benchmarks: HumanEval-ET~\cite{humaneval}, MBPP-ET~\cite{mbpp}, and LiveCodeBench~\cite{jain2025livecodebench}. HumanEval-ET includes 164 hand-crafted problems with rigorous test cases, offering high-quality evaluation at a small scale. MBPP-ET comprises 974 crowd-sourced basic Python tasks, providing broader coverage of everyday programming constructs. LiveCodeBench contains competitively sourced programming problems with temporal annotations, enabling time-aware evaluation. 
+
+For LiveCodeBench\footnote{\url{https://github.com/LiveCodeBench/LiveCodeBench}}, we follow the official GitHub repository and use \texttt{release\_v6}, the latest listed cumulative snapshot of the code-generation-lite scenario at the time of our experiments. This release contains 1,055 problems collected from May 2023 to April 2025. To align LiveCodeBench with our function-level evaluation protocol, we retain only problems with explicit function signatures, resulting in 444 tasks. This ensures that all three benchmarks follow a consistent function-level generation and pass/fail testing protocol.
+
+
+For RQ4, to evaluate whether \textsc{Pulse} generalizes beyond standalone function-level generation, we adopt the project-level evaluation setup from ProjectGen~\cite{zhao2025projectgen} and use the benchmark of DevBench$_{Python}$ ~\cite{li2025devbench}, the Python subset of DevBench.  It comprises 10 small-scale project-level tasks with executable tests, averaging 2.2 files and 276 lines of code per task. Although small in scale, these tasks involve project-level logic across multiple files, functions, and tests.
+
+
+\subsection{Baselines and Implementation Details}
+To assess the impact of requirement clarification via \textsc{Pulse}, we evaluate its effectiveness on two advanced LLMs accessed through APIs: DeepSeek-V4-Flash (DeepSeek)~\cite{deepseekai2026deepseekv4} and GPT-5.4-mini (GPT)~\cite{openai2026gpt54system}, and two representative strong code generation baselines, MapCoder~\cite{islam2024mapcoder} and DebateCoder~\cite{chen2025debatecoder}. MapCoder improves code generation through multi-agent collaborative reasoning and iterative refinement, while DebateCoder enhances generation reliability by introducing a debate-style interaction among multiple coding agents.
+
+In the clarification phase, to mitigate human variability, we use the same LLM as the asking agent to serve as the answering agent, simulating human respondents with access to the ground-truth intent. Specifically, the answering agent responds to clarification questions based solely on the original requirements and is instructed to provide only minimal and direct answers to the given questions. This design ensures that the clarification process exposes only task-relevant intent information, rather than unnecessary answer leakage.
+
+We split each dataset of function-level benchmarks into training, validation, and testing subsets with a 6:2:2 ratio. The training subset is used to construct uncertainty labels and train the uncertainty classifier, the validation subset is used for threshold tuning, and the testing subset is held out for final evaluation. We combine the training datasets of the three benchmarks into a single corpus for classifier training, allowing the classifier to be trained once and then applied across different benchmarks. During addressing RQ1-RQ3, we report performance both on the full testing subset and on the clarified subset selected by the uncertainty classifier, so as to distinguish overall effectiveness from the effect on requirements that actually undergo clarification.

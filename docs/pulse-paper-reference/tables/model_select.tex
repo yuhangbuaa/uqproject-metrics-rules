@@ -1,0 +1,18 @@
+\begin{table}[t]
+\vspace{0.5em}
+\centering
+\caption{Effect of model capacity on generation reliability and uncertainty. APR denotes Average Pass Rate and UQ denotes Mean Uncertainty Score.}
+\label{tab:model_selection}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}llll@{}}
+\hline
+Dataset & Model & APR & UQ \\
+\hline
+HumanEval-ET & DeepSeek-V3.2 & 0.844 & 0.057 \\
+HumanEval-ET & Qwen2.5-7B-Coder-Instruct & 0.807 & 0.154 \\
+MBPP-ET & DeepSeek-V3.2 & 0.527 & 0.148 \\
+MBPP-ET & Qwen2.5-7B-Coder-Instruct & 0.493 & 0.255 \\
+\hline
+\end{tabular*}
+\end{table}

@@ -1,0 +1,146 @@
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+% ASE2025
+\documentclass[10pt,conference]{IEEEtran}
+
+% \usepackage{cite}
+\bibliographystyle{plainnat}
+\usepackage[numbers]{natbib}
+\usepackage{multirow}
+\usepackage{enumitem}
+\usepackage{balance}
+\usepackage{tcolorbox}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{pifont}
+\usepackage{colortbl}
+\usepackage{mdframed}
+\usepackage{array}
+\usepackage{tikz}
+\usepackage{soul}
+\usepackage{amsfonts}
+\usepackage{tabularx}
+\usepackage{makecell}
+\usepackage{hhline}
+\usepackage{float}
+
+% add by yangdonghao
+\usepackage{booktabs}
+
+% add by aolangwoo
+\usepackage{varwidth} 
+\tcbuselibrary{breakable} 
+\tcbuselibrary{skins} 
+\usepackage{algorithm}
+\usepackage{algorithmic}
+% \usepackage[noend]{algpseudocode} %algorithm2e,algorithmic,
+\usepackage{subcaption}
+% \usepackage{subfigure}
+% \newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcommand{\xlian}[1]{\textcolor{blue}{\textbf{xlian}: #1}}
+\newcommand{\mfk}[1]{\textcolor{purple!70!black}{\textbf{mfk}: #1}}
+
+% 定义一个新环境
+\newtcolorbox{ellipsebox}{
+    enhanced,
+    sharp corners,            % 如果不要尖角可改为 rounded corners
+    frame style={draw=none},  % 先去掉矩形边框，后面用椭圆覆盖
+    colback=gray!20,          % 浅灰背景（15% 灰度）
+    colframe=gray!30,         % 边框颜色（稍深一点）
+    arc=10pt,                  % 圆角半径（越大越接近椭圆）
+    outer arc=10pt,
+    boxrule=0.5pt,
+    left=0pt, right=0pt, top=5pt, bottom=5pt,
+    center,                   % 内容居中
+    parbox=false,
+    width=\linewidth,
+    before skip=12pt, after skip=12pt,
+    fontupper=\normalfont     % 取消粗体，使用正常字体
+}
+
+
+% summary环境
+\newenvironment{rqsummary}[1]
+{
+    \vspace{2pt}
+    \begin{mdframed}[
+    linecolor=gray!100,
+    linewidth=3pt,
+    innerleftmargin=3pt,
+    topline=false,
+    rightline=false,
+    bottomline=false,
+    leftline=true,
+    innerrightmargin=3pt,
+    innertopmargin=3pt,
+    innerbottommargin=3pt,
+    backgroundcolor=gray!30
+    ]
+    \noindent\textbf{Summary for #1: }\ignorespaces
+}
+{
+    \end{mdframed}
+}
+
+% set figure path
+\graphicspath{{./figures/}} 
+
+% Reduce spacing around floats
+\setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+\setlength{\floatsep}{10pt plus 2pt minus 2pt}
+\setlength{\intextsep}{10pt plus 2pt minus 2pt}
+
+%%
+%% end of the preamble, start of the body of the document source.
+\begin{document}
+
+%%
+%% The "title" command has an optional parameter,
+%% allowing the author to define a "short title" to be used in page headers.
+\title{Towards Pre-generation Requirement Uncertainty Assessment for Code Generation}
+%\title{Mitigating Pre-generation Requirement Uncertainty for Reliable Code Generation}
+%\title{Weak LLM-based Requirements Uncertainty Annotation for Pre-generation Taming for Reliable Code Generation}
+%\title{\textsc{Clarify}: Mitigating Requirements Uncertainty before Code Generation}
+\author{Anonymous Author(s)}
+
+\maketitle
+
+%%
+%% The abstract is a short summary of the work to be presented in the
+%% article.
+\begin{abstract}
+Large Language Models (LLMs) excel at code generation, but their performance is constrained by uncertainties in natural language requirements, such as ambiguity and under-specification. Existing workflows typically assess requirements uncertainty by comparing multiple generation outputs for the same requirement, a post-processing approach that tends to incur unnecessary time and resource consumption. This motivates a pre-generation solution that identifies and mitigates uncertainty beforehand, ensuring high-quality requirements are fed into the code generation process.
+Thus, we introduce \textsc{Pulse} (Pre-generation Uncertainty Labeling with Surrogate Evaluator), a three-stage framework. First, we generate uncertain requirement variants via controlled perturbations and label uncertainty using a moderate-sized LLM oracle based on output variance across generations. Second, we train a lightweight RoBERTa-based classifier as a surrogate to predict uncertainty scores directly from textual features, avoiding generator invocation. Finally, we instantiate a simple agentic workflow that iteratively clarifies high-uncertainty requirements before generation. We evaluate \textsc{Pulse} on three functional-level benchmarks (HumanEval-ET, MBPP-ET, and LiveCodeBench) and further validate its generalizability on project-level code generation tasks (DevBench). Experimental results demonstrate four key findings. (1) Clarifying requirements identified as uncertain by \textsc{Pulse} improves pass@1 by up to 46\% and enhances generation stability across multiple runs. (2) Our proposed uncertainty quantification scores serve as an effective indicator, with higher requirements uncertainty correlating with greater pass@1 gains after clarification. (3) The lightweight classifier achieves high agreement with the oracle while incurring negligible inference overhead, making it suitable for real-time pre-generation screening. Finally, (4) \textsc{Pulse} generalizes well to project-level scenarios, confirming its practical utility beyond function-level benchmarks.
+
+\end{abstract}
+
+\begin{IEEEkeywords}
+Code Generation;
+Requirement Uncertainty;
+Uncertainty Quantification;
+Uncertainty Identification;
+Uncertainty Clarification
+\end{IEEEkeywords}
+
+\input{Sections/1-Introduction}
+\input{Sections/2-PreStudy}
+\input{Sections/3-Approach}
+\input{Sections/4-Setup}
+\input{Sections/5-Result}
+\input{Sections/6-Discussion}
+\input{Sections/7-RelatedWork}
+\input{Sections/8-Conclusion}
+
+
+
+% \section*{Competing interests}
+
+% The authors have no competing interests to declare that are relevant to the content of this article.
+\balance
+% \bibliographystyle{IEEEtran}
+\bibliography{Reference}
+
+\end{document}
+
+

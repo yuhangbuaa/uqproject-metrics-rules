@@ -1,0 +1,84 @@
+% \begin{table}[t]
+% \centering
+% %\caption{Clarification effectiveness across UQ percentile groups on the clarified subset. Requirements are sorted by quantified UQ scores in ascending order and divided into three percentile groups.The value in parentheses after clarified Pass@1 denotes the gain over the original Pass@1.}
+% \caption{Results of RQ2.}
+% \label{tab:rq2_main_result}
+% \footnotesize
+% \setlength{\tabcolsep}{2.2pt}
+% \begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}l|lcccc@{}}
+% \toprule
+% \textbf{Dataset} & \textbf{Method} & \textbf{Pct.} & \textbf{Avg. UQ} & \textbf{Ori. Pass@1} & \textbf{Clar. Pass@1} \\
+% \midrule
+
+% \multirow{9}{*}{\makecell[l]{MBPP-ET\\{(81)}}}
+% & \multirow{3}{*}{Direct} & 0--33\% & 0.049 & 0.574 & 0.648 {\scriptsize (+0.074)} \\
+% & & 33--67\% & 0.238 & 0.519 & 0.611 {\scriptsize (+0.093)} \\
+% & & 67--100\% & 0.528 & 0.389 & 0.667 {\scriptsize (+0.278)} \\
+% \hhline{~|-----}
+% & \multirow{3}{*}{DebateCoder} & 0--33\% & 0.049 & 0.537 & 0.574 {\scriptsize (+0.037)} \\
+% & & 33--67\% & 0.238 & 0.556 & 0.648 {\scriptsize (+0.093)} \\
+% & & 67--100\% & 0.528 & 0.333 & 0.630 {\scriptsize (+0.296)} \\
+% \hhline{~|-----}
+% & \multirow{3}{*}{MapCoder} & 0--33\% & 0.049 & 0.815 & 0.815 {\scriptsize (+0.000)} \\
+% & & 33--67\% & 0.238 & 0.722 & 0.778 {\scriptsize (+0.056)} \\
+% & & 67--100\% & 0.528 & 0.722 & 0.796 {\scriptsize (+0.074)} \\
+% \midrule
+
+% \multirow{9}{*}{\makecell[l]{LiveCode\\Bench\\{(77)}}}
+% & \multirow{3}{*}{Direct} & 0--33\% & 0.183 & 0.712 & 0.673 {\scriptsize (-0.038)} \\
+% & & 33--67\% & 0.360 & 0.569 & 0.804 {\scriptsize (+0.235)} \\
+% & & 67--100\% & 0.569 & 0.549 & 0.706 {\scriptsize (+0.157)} \\
+% \hhline{~|-----}
+% & \multirow{3}{*}{DebateCoder} & 0--33\% & 0.183 & 0.827 & 0.885 {\scriptsize (+0.058)} \\
+% & & 33--67\% & 0.360 & 0.765 & 0.902 {\scriptsize (+0.137)} \\
+% & & 67--100\% & 0.569 & 0.882 & 0.902 {\scriptsize (+0.020)} \\
+% \hhline{~|-----}
+% & \multirow{3}{*}{MapCoder} & 0--33\% & 0.183 & 0.904 & 0.923 {\scriptsize (+0.019)} \\
+% & & 33--67\% & 0.360 & 0.784 & 0.922 {\scriptsize (+0.137)} \\
+% & & 67--100\% & 0.569 & 0.824 & 0.902 {\scriptsize (+0.078)} \\
+% \bottomrule
+% \end{tabular*}
+% \end{table}
+
+
+\begin{table}[t]
+\vspace{0.4em}
+\centering
+\caption{Results of RQ2 (pass@1, \%). }
+\label{tab:rq2_main_result}
+\footnotesize
+\setlength{\tabcolsep}{2.2pt}
+\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}l|lcccc@{}}
+\toprule
+\textbf{Dataset} & \textbf{Method} & \textbf{Pct.} & \textbf{Avg. UQ} & \textbf{Before} & \textbf{After} \\
+\midrule
+
+\multirow{9}{*}{\makecell[l]{MBPP-ET\\{(81)}}}
+& \multirow{3}{*}{LLMs} & 0--33\% & 4.9 & 57.4 & 64.8 {\scriptsize (+7.4)} \\
+& & 33--67\% & 23.8 & 51.9 & 61.1 {\scriptsize (+9.3)} \\
+& & 67--100\% & 52.8 & 38.9 & 66.7 {\scriptsize (+27.8)} \\
+\hhline{~|-----}
+& \multirow{3}{*}{DebateCoder} & 0--33\% & 4.9 & 53.7 & 57.4 {\scriptsize (+3.7)} \\
+& & 33--67\% & 23.8 & 55.6 & 64.8 {\scriptsize (+9.3)} \\
+& & 67--100\% & 52.8 & 33.3 & 63.0 {\scriptsize (+29.6)} \\
+\hhline{~|-----}
+& \multirow{3}{*}{MapCoder} & 0--33\% & 4.9 & 81.5 & 81.5 {\scriptsize (+0.0)} \\
+& & 33--67\% & 23.8 & 72.2 & 77.8 {\scriptsize (+5.6)} \\
+& & 67--100\% & 52.8 & 72.2 & 79.6 {\scriptsize (+7.4)} \\
+\midrule
+
+\multirow{9}{*}{\makecell[l]{LiveCode\\Bench\\{(77)}}}
+& \multirow{3}{*}{Direct} & 0--33\% & 18.3 & 71.2 & 67.3 {\scriptsize (-3.8)} \\
+& & 33--67\% & 36.0 & 56.9 & 80.4 {\scriptsize (+23.5)} \\
+& & 67--100\% & 56.9 & 54.9 & 70.6 {\scriptsize (+15.7)} \\
+\hhline{~|-----}
+& \multirow{3}{*}{DebateCoder} & 0--33\% & 18.3 & 82.7 & 88.5 {\scriptsize (+5.8)} \\
+& & 33--67\% & 36.0 & 76.5 & 90.2 {\scriptsize (+13.7)} \\
+& & 67--100\% & 56.9 & 88.2 & 90.2 {\scriptsize (+2.0)} \\
+\hhline{~|-----}
+& \multirow{3}{*}{MapCoder} & 0--33\% & 18.3 & 90.4 & 92.3 {\scriptsize (+1.9)} \\
+& & 33--67\% & 36.0 & 78.4 & 92.2 {\scriptsize (+13.7)} \\
+& & 67--100\% & 56.9 & 82.4 & 90.2 {\scriptsize (+7.8)} \\
+\bottomrule
+\end{tabular*}
+\end{table}

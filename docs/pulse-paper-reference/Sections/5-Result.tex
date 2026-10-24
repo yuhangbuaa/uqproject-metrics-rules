@@ -1,0 +1,94 @@
+\section{Results and Analysis}\label{sec:results}
+
+%We present the experimental results following the four research questions. For each RQ, we describe the evaluation protocol and metrics before reporting the corresponding results.
+
+%latex problem --rq1_table
+\input{tables/rq1_main_result}
+
+\subsection{Addressing RQ1: Overall Effectiveness}
+\label{sec:rq1}
+
+\noindent \textbf{Metrics.}
+We adopt \emph{pass@1} as our primary metric for evaluating code generation quality, where a generated solution is deemed correct only if it successfully passes all associated test cases. To reflect the intervention cost of our approach, we report \#Total/\#Clarification (Clar.) for each benchmark.
+
+To further assess generation stability, we report the variance of pass@1 across five runs for direct LLM usage. We do not compute variance for MapCoder or DebateCoder, as their internal workflows introduce substantially more uncertainty (e.g., the reliability of debugging information in MapCoder).  Besides, we calculate the relative gain of requirements clarification for all approaches across the three benchmarks.
+
+\noindent \textbf{Results.}
+Table~\ref{tab:rq1_main_result} presents the results, where pass@1 variances are shown in superscript parentheses and relative gains in subscript brackets.  For each backbone zone, we report the results of clarified tasks and also the full set of benchmarks. We can make the following observations.
+\begin{itemize}[leftmargin=1em]
+    \item \textbf{Our \textsc{Pulse}, as a preprocessing step that refines input requirements, consistently improves \emph{pass@1} across nearly all settings.} By identifying and mitigating uncertainty before generation, \textsc{Pulse} effectively enhances input quality and leads to better outputs. The maximum gain reaches 49.9\% (MapCoder with DeepSeek-V4-Flash on HumanEval-ET) and 46.0\% (DebateCoder with GPT-5.4-mini on MBPP-ET). Exceptions only occur on HumanEval-ET, where the clarified subset contains merely six samples, too small to be representative. Overall, the consistent improvements validate that input preprocessing is a simple yet effective strategy for boosting code generation.
+
+    \item \textbf{Our \textsc{Pulse} also enhances generation stability, reducing \emph{pass@1} variance in 10 out of 12 LLM settings.} By identifying and mitigating uncertainty before generation, \textsc{Pulse} improves the quality of ambiguous requirements, reducing model sensitivity to phrasing variations and leading to more consistent outputs. The two exceptions are both on DeepSeek-V4-Flash with LiveCodeBench, where variance slightly increases (from 5.0 to 5.5 and 5.3 to 5.6). Despite these minor rises, clarification still brings substantial \emph{pass@1} gains (35.1\% and 20.3\%) on the same benchmark.
+    
+    \item \textbf{The benefit of input clarification varies with task complexity and backbone capability.} On simpler datasets like MBPP-ET, \textsc{Pulse} yields larger relative gains (up to 46.0\% for DebateCoder with the GPT-5.4-mini), primarily compensating for weaker models' interpretation deficiencies. On more complex benchmarks like LiveCodeBench, gains are more pronounced for stronger backbones (e.g., DeepSeek-V4-Flash with MapCoder: 14.5\% vs. 1.5\%), suggesting that capable models better exploit clarified inputs for complex reasoning. This indicates that \textsc{Pulse} serves as a universal input enhancer whose downstream effect is mediated by the backbone's reasoning capacity.
+
+\end{itemize}
+
+
+\begin{rqsummary}{RQ1}
+    Despite being trained on datasets labeled based on a mid-size model's performance, our \textsc{Pulse} consistently improves both the pass@1 and generation stability of downstream code generation, across direct LLMs and long agentic workflows alike.
+\end{rqsummary}
+
+
+\subsection{Addressing RQ2: Uncertainty Quantification}
+\label{sec:rq2}
+
+We use the UQ value (Eq.~5) as a signal to determine whether a requirement is high-uncertainty and thus should be clarified. To evaluate the feasibility of this design while mitigating potential classifier bias, we employ the ideal UQ annotations from Phase I instead of the predicted ones. We examine how pass@1 trends change after clarification across different UQ levels. For RQ2, we only consider test-set tasks whose requirements are identified as high-uncertainty and actually clarified. For each dataset and each code generation approach, we split the clarified samples uniformly into three percentile groups, and report the average UQ value, the original pass@1 (\emph{Before} clarification), and the clarified pass@1 (\emph{After} processing by our approach).
+
+\noindent \textbf{Results.}
+The results are shown in Table~\ref{tab:rq2_main_result}. Note that for each approach, we run with two backbones (DeepSeek-V4-Flash and GPT-5.4-mini). Due to space constraints, we aggregate the results and report the average across the two backbones.
+
+%rq2_table
+\input{tables/rq2_main_result}
+
+We can make the following two observations.
+\begin{itemize}[leftmargin=1em]
+    \item \textbf{Our \textsc{Pulse} effectively narrows the performance gap across different UQ ranges.} Before clarification, higher UQ values are generally associated with lower pass@1. For instance, on MBPP-ET with LLMs, the Before pass@1 drops from 57.4\% (0–33\%) to 38.9\% (67–100\%). After applying \textsc{Pulse}, this disparity is substantially reduced, with the After pass@1 reaching 64.8\% and 66.7\% respectively, achieving relatively stable performance across all UQ levels. This trend holds across DebateCoder and MapCoder as well, indicating that requirement clarification effectively compensates for the degradation caused by high-uncertainty inputs.
+
+    \item \textbf{Higher UQ values generally lead to larger pass@1 gains after clarification, validating the effectiveness of UQ as a signal.} On MBPP-ET, the average gain increases monotonically with UQ across all three methods: from 3.7\%–7.4\% in the low-UQ group, to 5.6\%–9.3\% in the mid-UQ group, and up to 7.4\%–29.6\% in the high-UQ group. On LiveCodeBench, the gains are most pronounced in the mid-UQ group (up to 23.5\% for Direct and 13.7\% for both DebateCoder and MapCoder), while the high-UQ group still yields substantial improvements (up to 15.7\%). Notably, the gains in the high-UQ group consistently exceed those in the low-UQ group across all settings (e.g., 15.7\% vs. –3.8\% for Direct, 2.0\% vs. 5.8\% for DebateCoder, and 7.8\% vs. 1.9\% for MapCoder). This monotonic relationship between UQ and improvement confirms that UQ is a reliable signal for identifying requirements that most benefit from clarification.
+\end{itemize}
+
+
+\begin{rqsummary}{RQ2}
+    Higher UQ values consistently correlate with larger gains after clarification, confirming that the proposed uncertainty score is an effective trigger for selective requirement clarification.
+\end{rqsummary}
+
+
+
+%rq3_table
+\input{tables/rq3_main_result}
+
+\subsection{Addressing RQ3: Uncertainty Prediction}
+\label{sec:rq3}
+
+\noindent \textbf{Metrics.}
+To mitigate the bias introduced by the class imbalance between high- and low-uncertainty instances, we employ macro-averaged precision (M-Precision), recall (M-Recall), and F1-score (M-F1), which treat each class equally regardless of its sample size. Besides, we calculate weighted-F1 (W-F1) to provide a complementary perspective that accounts for the natural class distribution, offering a balanced view of model performance across both majority and minority classes.
+
+\noindent \textbf{Results.}
+Table~\ref{tab:rq3_main_result} presents the evaluation results. It can be seen that our classifier achieves the best macro- and weighted-F1 on both LiveCodeBench and MBPP-ET. On HumanEval-ET, our classifier outperforms all GPT-based baselines regardless of few-shot augmentation, though the few-shot DeepSeek takes the lead. Nevertheless, given that HumanEval-ET contains only nine high-uncertainty samples, which renders its metrics highly volatile, we refrain from overemphasizing this result. The primary evidence for our classifier's effectiveness instead rests on its consistent superiority across the two larger benchmarks, LiveCodeBench and MBPP-ET, where the results are more statistically reliable. Its millisecond-level classification speed (about 10ms per requirement) and zero token overhead further underscore its practical value.
+
+
+\begin{rqsummary}{RQ3}
+    Our lightweight RoBERTa-based classifier outperforms DeepSeek-v4-flash and GPT-5.4-mini on both two larger benchmarks at zero token cost, with its real-time speed reinforcing its practical value.
+\end{rqsummary}
+
+
+
+\subsection{Addressing RQ4: Generalization}
+\label{sec:rq4}
+
+RQ1-RQ3 focus on the evaluation on function-level benchmarks since our classifier is trained on this level. To address RQ4, we would like to initially explore the degree that our approach can generalize to project-level code generation, i.e., generating a whole project from a set of requirements. 
+
+We adopt \textsc{ProjectGen}~\cite{zhao2025projectgen} as the project-level generation framework. \textsc{ProjectGen} is a recent multi-agent framework that decomposes project generation into architecture design, skeleton generation, and code filling. It first constructs a Semantic Software Architecture Tree (SSAT) from requirement and design documents, and then uses the SSAT to guide skeleton construction and implementation filling. Each stage is paired with a judge agent for iterative refinement, with relevant historical feedback retrieved from memory to support subsequent revisions. This approach is chosen for its state-of-the-art performance and publicly available implementation.
+
+\noindent\textbf{Metrics.} We use \emph{Full Pass} and \emph{Avg.Pass Ratio} as the metrics. \emph{Full Pass} denotes the average number of generated repositories that pass all corresponding test cases,  while \emph{Avg. Pass Ratio} is the average proportion of passed test cases across the 10 projects. To mitigate randomness, we run the project-level generation approach \textsc{ProjectGen} five times and report the average results.
+
+\noindent \textbf{Results.}
+Table~\ref{tab:rq4_main_result} summarizes the results. Applying \textsc{Pulse} for requirement pre-processing consistently improves both \emph{Full Pass} and \emph{Pass Ratio}, which reflects an increased success rate of generation. These findings confirm the generalization of our approach beyond function-level tasks.  While the gains are more moderate than those observed in function-level settings (Table~\ref{tab:rq1_main_result}), they are notably larger than the improvements achieved by DebateCoder on the highest-UQ tasks of LiveCodeBench (Table~\ref{tab:rq2_main_result}). This can be attributed to two factors. First, among the three benchmarks, LiveCodeBench features the longest requirements, making it the most similar to the project-level setting. Second, both DebateCoder and the \textsc{ProjectGen} are agentic workflows, where the quality of input requirements plays a particularly critical role in determining downstream performance.
+
+
+\input{tables/rq4_main_result}
+
+\begin{rqsummary}{RQ4}
+    Our \textsc{Pulse} shows potential for project-level code generation, delivering useful requirement-side improvements that benefit downstream generation quality.
+\end{rqsummary}

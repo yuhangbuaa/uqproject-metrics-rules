@@ -113,6 +113,10 @@ python server.py
 
 正文按项目整体视角组织，已完成的需求端与规划端实验按各自样本和协议陈述；正式类别全集、跨环节验证、第三方测评及签署信息仍在对应位置标注待补。报告直接说明方法、实验设置与结果，参考文献仅保留论文的纯文本条目。
 
+## 研究参考材料
+
+[PULSE 项目论文 LaTeX 工程](docs/pulse-paper-reference/README.md)是 PULSE 项目既有论文材料的复制快照，供需求端分类、量化和主动感知章节查阅。该目录不承担研究报告主稿或实验原始证据的职能；复用其中的类别表述、方法和数字时，须与当前研究备份、实验记录及项目口径核对。论文中的文本扰动类型不直接作为合同要求的不确定性来源类别计数。
+
 ## 证据复算与检查
 
 ```powershell
@@ -125,4 +129,4 @@ python scripts/run_checks.py --node 'PATH_TO_NODE_EXECUTABLE'
 
 历史复算忽略summary，按task_id保留文件最后一条记录，不依据成败选优，原研究文件不改写。32份文件的哈希和结果保存在 `dist/plancoder-evidence.json`；重复、合并来源及失败调用零计量等事项显式保留。RQ1、RQ2、人工盲评及消融原始材料尚未齐全，不宣称已独立复算。
 
-当前通过 Python 28 项和 JavaScript 13 项内部检查，记录在 `dist/selftest-results.json`。四份 PlanCoder 材料及四份 PULSE 对应材料位于 `deliverables/中期检查材料_20261022/`；基本信息和经费留空，专家结论与签字未预填。详见 [中期检查准备说明](docs/中期检查准备说明.md)。模板审计与渲染中间件位于忽略目录 `.work/midterm/`。未发布远程网站。
+当前通过 Python 28 项和 JavaScript 13 项内部检查，记录在 `dist/selftest-results.json`。四份 PlanCoder 材料及四份 PULSE 对应材料位于 `deliverables/中期检查材料_20261022/`；基本信息和经费留空，专家结论与签字未预填。模板审计与渲染中间件位于忽略目录 `.work/midterm/`。未发布远程网站。

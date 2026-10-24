@@ -1,0 +1,75 @@
+% \begin{table}[t]
+% \centering
+% \caption{Average repository-level generalization results across five repeated runs on 10 repositories. Full Pass denotes the average number of fully passing repositories. Forced Stop denotes repositories accepted only after reaching the maximum code-generation iteration budget.}
+% \label{tab:rq4_main_result}
+% \footnotesize
+% \setlength{\tabcolsep}{3.8pt}
+% \begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lccc@{}}
+% \toprule
+% \textbf{Setting} & \textbf{Full Pass} & \textbf{Forced Stop} & \textbf{Valid Avg. Pass Ratio} \\
+% \midrule
+% Original & 3.00 & 7.00 & 0.710 \\
+% Clarified & 3.80 & 6.20 & 0.747 \\
+% $\Delta$ & +0.80 & -0.80 & +0.037 \\
+% \bottomrule
+% \end{tabular*}
+% \end{table}
+
+\begin{table}[t]
+\centering
+\caption{Results of RQ4. Full Pass is the average number of repositories passing all test cases.}
+\label{tab:rq4_main_result}
+\footnotesize
+\setlength{\tabcolsep}{6pt}
+\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lcc@{}}
+\toprule
+\textbf{Setting} & \textbf{Full Pass}  & \textbf{Avg. Pass Ratio} \\
+\midrule
+Original & 3.00  & 0.588 \\
+Clarified & 3.80  & 0.684 \\
+$\Delta$ & +0.80 & +0.096 \\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+
+
+% \begin{table}[t]
+% \centering
+% \caption{the whole 5 runs.\mfk{tmp put here}}
+% \label{tab:rq4_repo_generalization_runs}
+% \footnotesize
+% \setlength{\tabcolsep}{3.0pt}
+% \begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lcccc@{}}
+% \toprule
+% \textbf{Run} & \textbf{Setting} & \textbf{Full Pass} & \textbf{Forced Stop} & \textbf{Fixed Avg. Pass Ratio} \\
+% \midrule
+% \multirow{3}{*}{Run 1}
+% & Original & 3/10 & 7/10 & 0.576 \\
+% & Clarified & 4/10 & 6/10 & 0.824 \\
+% & $\Delta$ & +1 & -1 & +0.248 \\
+% \midrule
+% \multirow{3}{*}{Run 2}
+% & Original & 3/10 & 7/10 & 0.565 \\
+% & Clarified & 5/10 & 5/10 & 0.617 \\
+% & $\Delta$ & +2 & -2 & +0.052 \\
+% \midrule
+% \multirow{3}{*}{Run 3}
+% & Original & 3/10 & 7/10 & 0.532 \\
+% & Clarified & 4/10 & 6/10 & 0.593 \\
+% & $\Delta$ & +1 & -1 & +0.061 \\
+% \midrule
+% \multirow{3}{*}{Run 4}
+% & Original & 3/10 & 7/10 & 0.577 \\
+% & Clarified & 3/10 & 7/10 & 0.673 \\
+% & $\Delta$ & 0 & 0 & +0.096 \\
+% \midrule
+% \multirow{3}{*}{Run 5}
+% & Original & 3/10 & 7/10 & 0.690 \\
+% & Clarified & 3/10 & 7/10 & 0.712 \\
+% & $\Delta$ & 0 & 0 & +0.022 \\
+% \midrule
+% \textbf{Mean $\Delta$} & -- & +0.80 & -0.80 & +0.096 \\
+% \bottomrule
+% \end{tabular*}
+% \end{table}

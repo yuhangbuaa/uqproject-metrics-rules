@@ -1,0 +1,70 @@
+% \begin{table}[t]
+% \centering
+% %\caption{Per-dataset performance of different methods for high-uncertainty requirement prediction. The numbers in parentheses after each dataset denote the test-set size and the number of high-uncertainty requirements, respectively. M-F1 and W-F1 denote macro- and weighted-F1, and High-F1 denotes F1 for the high-uncertainty class.}
+% \caption{Results of RQ3}
+% \label{tab:rq3_main_result}
+% \footnotesize
+% \setlength{\tabcolsep}{3.0pt}
+% \begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}p{1.65cm}lccc@{}}
+% \toprule
+% \textbf{Dataset} & \textbf{Method} & \textbf{M-F1} & \textbf{W-F1} & \textbf{High-F1} \\
+% \midrule
+% \multirow{5}{=}{\makecell[l]{HumanEval-ET\\(60/9)}}
+% & DS Zero & 0.607 & 0.763 & 0.385 \\
+% & DS Few & \textbf{0.650} & \textbf{0.801} & \textbf{0.435} \\
+% & GPT Zero & 0.449 & 0.545 & 0.311 \\
+% & GPT Few & 0.484 & 0.629 & 0.278 \\
+% & Ours & 0.505 & 0.765 & 0.133 \\
+% \midrule
+% \multirow{5}{=}{\makecell[l]{LiveCodeBench\\(204/82)}}
+% & DS Zero & 0.508 & 0.526 & 0.419 \\
+% & DS Few & 0.486 & 0.512 & 0.355 \\
+% & GPT Zero & 0.532 & 0.539 & 0.497 \\
+% & GPT Few & 0.522 & 0.534 & 0.461 \\
+% & Ours & \textbf{0.559} & \textbf{0.560} & \textbf{0.550} \\
+% \midrule
+% \multirow{5}{=}{\makecell[l]{MBPP-ET\\(297/82)}}
+% & DS Zero & 0.481 & 0.489 & 0.462 \\
+% & DS Few & 0.547 & 0.592 & 0.448 \\
+% & GPT Zero & 0.409 & 0.383 & \textbf{0.466} \\
+% & GPT Few & 0.425 & 0.409 & 0.462 \\
+% & Ours & \textbf{0.553} & \textbf{0.620} & 0.404 \\
+% \bottomrule
+% \multicolumn{5}{l}{Parentheses: (total test size/\#high-uncertainty cases).}
+% \end{tabular*}
+% \end{table}
+
+\begin{table}[t]
+\centering
+\caption{Results of RQ3}
+\label{tab:rq3_main_result}
+\footnotesize
+\setlength{\tabcolsep}{3.0pt}
+\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}p{1.65cm}lcccc@{}}
+\toprule
+\textbf{Dataset} & \textbf{Method} & \textbf{M-Precision} & \textbf{M-Recall} & \textbf{M-F1} &\textbf{W-F1} \\
+\midrule
+\multirow{5}{=}{\makecell[l]{HumanEval-ET\\(60/9)}}
+& DS Zero & 0.601 & 0.660 & 0.607 &0.763 \\
+& DS Few & \textbf{0.635} & \textbf{0.690} & \textbf{0.650} & \textbf{0.831}\\
+& GPT Zero & 0.556 & 0.605 & 0.449 &0.545\\
+& GPT Few & 0.532 & 0.562 & 0.484 &0.629\\
+& Ours & 0.509 & 0.507 & 0.505 &0.765\\
+\midrule
+\multirow{5}{=}{\makecell[l]{LiveCodeBench\\(204/82)}}
+& DS Zero & 0.508 & 0.508 & 0.508 &0.526\\
+& DS Few & 0.488 & 0.488 & 0.486 &0.512\\
+& GPT Zero & 0.539 & 0.541 & 0.532 &0.539\\
+& GPT Few & 0.524 & 0.525 & 0.522 &0.534\\
+& Ours & \textbf{0.576} & \textbf{0.577} & \textbf{0.559} &\textbf{0.560} \\
+\midrule
+\multirow{5}{=}{\makecell[l]{MBPP-ET\\(297/82)}}
+& DS Zero & 0.576 & 0.582 & 0.481 &0.489\\
+& DS Few & 0.571 & \textbf{0.589} & 0.547 &0.592 \\
+& GPT Zero & \textbf{0.599} & 0.573 & 0.409 &0.383\\
+& GPT Few & 0.585 & 0.571 & 0.425 &0.409\\
+& Ours & 0.556 & 0.567 & \textbf{0.553} &\textbf{0.620}\\
+\bottomrule
+\multicolumn{5}{l}{Parentheses: (total test size/\#high-uncertainty cases).}
+\end{tabular*}
+\end{table}

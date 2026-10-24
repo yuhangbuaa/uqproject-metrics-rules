@@ -1,0 +1,42 @@
+\begin{table*}[htbp]
+\centering
+\caption{Requirement perturbations used in the preliminary study. These perturbations are adapted from prior studies on natural-language perturbation and prompt robustness.}
+\label{tab:uncertainty_factors}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}p{3.3cm}p{8.0cm}p{3.0cm}p{2.0cm}@{}}
+\toprule
+\textbf{Perturbation Type} & \textbf{Explanation} & \textbf{Transformation Method} & \textbf{Reference} \\
+\midrule
+
+Content Rewriting
+& Rewrite the requirement by abstracting or paraphrasing detailed expressions of functional constraints, edge cases, or task intent while keeping the same high-level programming task.
+& LLM-assisted rewriting
+& ~\cite{chen2026nlperturbator,zhu2024promptrobust} \\
+
+Format Transformation
+& Rewrite the requirement into a natural, conversational, and human-like paragraph, avoiding formal benchmark-style structures while preserving all functional requirements and constraints.
+& LLM-assisted rewriting
+& ~\cite{chen2026nlperturbator} \\
+
+Example Removal
+& Remove input-output examples from the requirement, such as doctest-style example usages in HumanEval and sample input/output cases in programming-contest-style tasks such as LiveCodeBench.
+& Rule-based removal
+& ~\cite{nashid2023retrieval,khojah2025impact} \\
+
+Verbose Rewriting
+& Add redundant descriptions or expand the requirement expression while preserving the intended functionality.
+& Rule-based transformation
+& ~\cite{chen2026nlperturbator,zhu2024promptrobust} \\
+
+Noise Injection
+& Insert irrelevant or distracting natural-language content into the requirement without introducing new inputs, outputs, constraints, or expected behavior.
+& Rule-based transformation
+& ~\cite{chen2026nlperturbator,zhu2024promptrobust} \\
+
+Typographical Perturbation
+& Introduce spelling or character-level errors while aiming to preserve the original requirement intent.
+& TextAttack-based character transformation
+& ~\cite{morris2020textattack,zhu2024promptrobust} \\
+
+\bottomrule
+\end{tabular*}
+\end{table*}

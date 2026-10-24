@@ -1,0 +1,141 @@
+% \begin{table*}[t]
+% \centering
+% \newcommand{\pv}[2]{#1{\tiny$_{(#2)}$}}
+% \caption{Pass@1 before and after selective clarification across generation methods and datasets.
+% The number in parentheses after each dataset denotes \#Total/\#Clar.
+% Before/After are computed on the clarified subset, whereas Direct/Pulse are computed on the full set.
+% Tiny values in parentheses, shown only for LLMs where repeated runs are available, denote variance across repeated runs.}
+% \label{tab:rq1_main_result}
+% \footnotesize
+% \setlength{\tabcolsep}{1.5pt}
+% \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llcccccccc@{}}
+% \toprule
+% \multirow{3}{*}{\textbf{Method}} &
+% \multirow{3}{*}{\textbf{Dataset (\#Total/\#Clar.)}} &
+% \multicolumn{4}{c}{\textbf{DeepSeek-V4-Flash}} &
+% \multicolumn{4}{c}{\textbf{GPT-5.4-mini}} \\
+% \cmidrule(lr){3-6}
+% \cmidrule(lr){7-10}
+% & &
+% \multicolumn{2}{c}{\textbf{Clar. Tasks}} &
+% \multicolumn{2}{c}{\textbf{Full Set}} &
+% \multicolumn{2}{c}{\textbf{Clar. Tasks}} &
+% \multicolumn{2}{c}{\textbf{Full Set}} \\
+% \cmidrule(lr){3-4}
+% \cmidrule(lr){5-6}
+% \cmidrule(lr){7-8}
+% \cmidrule(lr){9-10}
+% & &
+% \textbf{Before} & \textbf{After} &
+% \textbf{Direct} & \textbf{Pulse} &
+% \textbf{Before} & \textbf{After} &
+% \textbf{Direct} & \textbf{Pulse} \\
+% \midrule
+% \multirow{3}{*}{LLMs} & HumanEval-ET (40/6) & \pv{0.833}{0.080} & \pv{0.833}{0.000} & \pv{0.675}{0.056} & \pv{0.675}{0.044} & \pv{0.667}{0.040} & \pv{\textbf{0.833}}{0.000} & \pv{0.525}{0.020} & \pv{\textbf{0.550}}{0.014} \\
+%  & LiveCodeBench (136/77) & \pv{0.519}{0.050} & \pv{\textbf{0.701}}{0.055} & \pv{0.507}{0.053} & \pv{\textbf{0.610}}{0.056} & \pv{0.701}{0.055} & \pv{\textbf{0.753}}{0.047} & \pv{0.654}{0.058} & \pv{\textbf{0.684}}{0.054} \\
+%  & MBPP-ET (198/81) & \pv{0.519}{0.055} & \pv{\textbf{0.654}}{0.032} & \pv{0.475}{0.050} & \pv{\textbf{0.530}}{0.040} & \pv{0.469}{0.062} & \pv{\textbf{0.630}}{0.039} & \pv{0.475}{0.044} & \pv{\textbf{0.540}}{0.035} \\
+% \midrule
+% \multirow{3}{*}{MapCoder} & HumanEval-ET (40/6) & 0.667 & \textbf{1.000} & 0.850 & \textbf{0.900} & 0.667 & \textbf{1.000} & 0.675 & \textbf{0.725} \\
+%  & LiveCodeBench (136/77) & 0.805 & \textbf{0.922} & 0.794 & \textbf{0.860} & 0.870 & \textbf{0.909} & 0.853 & \textbf{0.875} \\
+%  & MBPP-ET (198/81) & 0.815 & \textbf{0.827} & 0.742 & \textbf{0.747} & 0.691 & \textbf{0.765} & 0.636 & \textbf{0.667} \\
+% \midrule
+% \multirow{3}{*}{DebateCoder} & HumanEval-ET (40/6) & 1.000 & 1.000 & 0.925 & 0.925 & 1.000 & 1.000 & 0.800 & 0.800 \\
+%  & LiveCodeBench (136/77) & 0.805 & \textbf{0.883} & 0.816 & \textbf{0.860} & 0.844 & \textbf{0.909} & 0.787 & \textbf{0.824} \\
+%  & MBPP-ET (198/81) & 0.494 & \textbf{0.568} & 0.460 & \textbf{0.490} & 0.457 & \textbf{0.667} & 0.470 & \textbf{0.556} \\
+% \bottomrule
+% \end{tabular*}
+% \end{table*}
+
+% \begin{table*}[t]
+% \centering
+% \newcommand{\pv}[2]{#1{\tiny$_{(#2)}$}}
+% \newcommand{\gain}[1]{{\color{red}\tiny$_{[#1]}$}}
+% \caption{Results of RQ1. Tiny values in parentheses denote variance across 5 repeated runs. Red tiny values in brackets after After denote the relative gain (after-before)/before.}
+% \label{tab:rq1_main_result}
+% \footnotesize
+% \setlength{\tabcolsep}{1.5pt}
+% \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llcccccccc@{}}
+% \toprule
+% \multirow{3}{*}{\textbf{Method}} &
+% \multirow{3}{*}{\textbf{Dataset (\#Total/\#Clar.)}} &
+% \multicolumn{4}{c}{\textbf{DeepSeek-V4-Flash}} &
+% \multicolumn{4}{c}{\textbf{GPT-5.4-mini}} \\
+% \cmidrule(lr){3-6}
+% \cmidrule(lr){7-10}
+% & &
+% \multicolumn{2}{c}{\textbf{Clar. Tasks}} &
+% \multicolumn{2}{c}{\textbf{Full Set}} &
+% \multicolumn{2}{c}{\textbf{Clar. Tasks}} &
+% \multicolumn{2}{c}{\textbf{Full Set}} \\
+% \cmidrule(lr){3-4}
+% \cmidrule(lr){5-6}
+% \cmidrule(lr){7-8}
+% \cmidrule(lr){9-10}
+% & &
+% \textbf{Before} & \textbf{After} &
+% \textbf{Direct} & \textbf{Pulse} &
+% \textbf{Before} & \textbf{After} &
+% \textbf{Direct} & \textbf{Pulse} \\
+% \midrule
+% \multirow{3}{*}{LLMs} & HumanEval-ET (40/6) & \pv{0.833}{0.080} & \pv{0.833}{0.000} & \pv{0.675}{0.056} & \pv{0.675}{0.044} & \pv{0.667}{0.040} & \pv{\textbf{0.833}}{0.000} & \pv{0.525}{0.020} & \pv{\textbf{0.550}}{0.014} \\
+%  & LiveCodeBench (136/77) & \pv{0.519}{0.050} & \pv{\textbf{0.701}}{0.055} & \pv{0.507}{0.053} & \pv{\textbf{0.610}}{0.056} & \pv{0.701}{0.055} & \pv{\textbf{0.753}}{0.047} & \pv{0.654}{0.058} & \pv{\textbf{0.684}}{0.054} \\
+%  & MBPP-ET (198/81) & \pv{0.519}{0.055} & \pv{\textbf{0.654}}{0.032} & \pv{0.475}{0.050} & \pv{\textbf{0.530}}{0.040} & \pv{0.469}{0.062} & \pv{\textbf{0.630}}{0.039} & \pv{0.475}{0.044} & \pv{\textbf{0.540}}{0.035} \\
+% \midrule
+% \multirow{3}{*}{MapCoder} & HumanEval-ET (40/6) & 0.667 & \textbf{1.000}\gain{0.499} & 0.850 & \textbf{0.900}\gain{0.059} & 0.667 & \textbf{1.000}\gain{0.499} & 0.675 & \textbf{0.725}\gain{0.074} \\
+%  & LiveCodeBench (136/77) & 0.805 & \textbf{0.922}\gain{0.145} & 0.794 & \textbf{0.860}\gain{0.083} & 0.870 & \textbf{0.909}\gain{0.045} & 0.853 & \textbf{0.875}\gain{0.026} \\
+%  & MBPP-ET (198/81) & 0.815 & \textbf{0.827}\gain{0.015} & 0.742 & \textbf{0.747}\gain{0.007} & 0.691 & \textbf{0.765}\gain{0.107} & 0.636 & \textbf{0.667}\gain{0.049} \\
+% \midrule
+% \multirow{3}{*}{DebateCoder} & HumanEval-ET (40/6) & 1.000 & 1.000\gain{0.000} & 0.925 & 0.925\gain{0.000} & 1.000 & 1.000\gain{0.000} & 0.800 & 0.800\gain{0.000} \\
+%  & LiveCodeBench (136/77) & 0.805 & \textbf{0.883}\gain{0.097} & 0.816 & \textbf{0.860}\gain{0.054} & 0.844 & \textbf{0.909}\gain{0.077} & 0.787 & \textbf{0.824}\gain{0.047} \\
+%  & MBPP-ET (198/81) & 0.494 & \textbf{0.568}\gain{0.150} & 0.460 & \textbf{0.490}\gain{0.065} & 0.457 & \textbf{0.667}\gain{0.460} & 0.470 & \textbf{0.556}\gain{0.183} \\
+% \bottomrule
+% \end{tabular*}
+% \end{table*}
+
+\begin{table*}[t]
+\centering
+% \newcommand{\pv}[2]{#1{\fontsize{4pt}{4pt}\selectfont$^{(#2)}$}}
+% \newcommand{\gain}[1]{{\color{red}\fontsize{4pt}{4pt}\selectfont$_{[#1]}$}}
+\newcommand{\pv}[2]{#1\textsuperscript{\scriptsize(#2)}}
+\newcommand{\gain}[1]{\textsubscript{\textcolor{red}{\scriptsize[#1]}}}
+\caption{Results of RQ1. All values are in percentage (\%). Tiny values in superscript parentheses denote variance across repeated runs. Red tiny values in subscript brackets after After/Pulse denote the relative gain (after-before)/before.}
+\label{tab:rq1_main_result}
+\footnotesize
+\setlength{\tabcolsep}{1.5pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llcccccccc@{}}
+\toprule
+\multirow{3}{*}{\textbf{Method}} &
+\multirow{3}{*}{\textbf{Benchmark (\#Total/\#Clar.)}} &
+\multicolumn{4}{c}{\textbf{DeepSeek-V4-Flash}} &
+\multicolumn{4}{c}{\textbf{GPT-5.4-mini}} \\
+\cmidrule(lr){3-6}
+\cmidrule(lr){7-10}
+& &
+\multicolumn{2}{c}{\textbf{Clar. Tasks}} &
+\multicolumn{2}{c}{\textbf{Full Set}} &
+\multicolumn{2}{c}{\textbf{Clar. Tasks}} &
+\multicolumn{2}{c}{\textbf{Full Set}} \\
+\cmidrule(lr){3-4}
+\cmidrule(lr){5-6}
+\cmidrule(lr){7-8}
+\cmidrule(lr){9-10}
+& &
+\textbf{Before} & \textbf{After} &
+\textbf{Direct} & \textbf{After} &
+\textbf{Before} & \textbf{After} &
+\textbf{Direct} & \textbf{After} \\
+\midrule
+\multirow{3}{*}{LLMs} & HumanEval-ET (40/6) & \pv{83.3}{8.0} & \pv{83.3}{0.0}\gain{0.0} & \pv{67.5}{5.6} & \pv{67.5}{4.4}\gain{0.0} & \pv{66.7}{4.0} & \pv{\textbf{83.3}}{0.0}\gain{24.9} & \pv{52.5}{2.0} & \pv{\textbf{55.0}}{1.4}\gain{4.8} \\
+ & LiveCodeBench (136/77) & \pv{51.9}{5.0} & \pv{\textbf{70.1}}{5.5}\gain{35.1} & \pv{50.7}{5.3} & \pv{\textbf{61.0}}{5.6}\gain{20.3} & \pv{70.1}{5.5} & \pv{\textbf{75.3}}{4.7}\gain{7.4} & \pv{65.4}{5.8} & \pv{\textbf{68.4}}{5.4}\gain{4.6} \\
+ & MBPP-ET (198/81) & \pv{51.9}{5.5} & \pv{\textbf{65.4}}{3.2}\gain{26.0} & \pv{47.5}{5.0} & \pv{\textbf{53.0}}{4.0}\gain{11.6} & \pv{46.9}{6.2} & \pv{\textbf{63.0}}{3.9}\gain{34.3} & \pv{47.5}{4.4} & \pv{\textbf{54.0}}{3.5}\gain{13.7} \\
+\midrule
+\multirow{3}{*}{MapCoder} & HumanEval-ET (40/6) & 66.7 & \textbf{100.0}\gain{49.9} & 85.0 & \textbf{90.0}\gain{5.9} & 66.7 & \textbf{100.0}\gain{49.9} & 67.5 & \textbf{72.5}\gain{7.4} \\
+ & LiveCodeBench (136/77) & 80.5 & \textbf{92.2}\gain{14.5} & 79.4 & \textbf{86.0}\gain{8.3} & 87.0 & \textbf{90.9}\gain{4.5} & 85.3 & \textbf{87.5}\gain{2.6} \\
+ & MBPP-ET (198/81) & 81.5 & \textbf{82.7}\gain{1.5} & 74.2 & \textbf{74.7}\gain{0.7} & 69.1 & \textbf{76.5}\gain{10.7} & 63.6 & \textbf{66.7}\gain{4.9} \\
+\midrule
+\multirow{3}{*}{DebateCoder} & HumanEval-ET (40/6) & 100.0 & 100.0\gain{0.0} & 92.5 & 92.5\gain{0.0} & 100.0 & 100.0\gain{0.0} & 80.0 & 80.0\gain{0.0} \\
+ & LiveCodeBench (136/77) & 80.5 & \textbf{88.3}\gain{9.7} & 81.6 & \textbf{86.0}\gain{5.4} & 84.4 & \textbf{90.9}\gain{7.7} & 78.7 & \textbf{82.4}\gain{4.7} \\
+ & MBPP-ET (198/81) & 49.4 & \textbf{56.8}\gain{15.0} & 46.0 & \textbf{49.0}\gain{6.5} & 45.7 & \textbf{66.7}\gain{46.0} & 47.0 & \textbf{55.6}\gain{18.3} \\
+\bottomrule
+\end{tabular*}
+\end{table*}

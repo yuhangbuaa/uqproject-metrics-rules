@@ -1,0 +1,20 @@
+ \section{Discussion}
+\label{sec:discussion}
+
+% \subsection{Limitations and Opportunities}
+% \label{subsec:limitations}
+\subsection{Implications}
+We assess requirement uncertainty \emph{before} generation, rather than relying on post-hoc execution feedback or modifying the generation process itself. This allows our \textsc{Pulse} to serve as a lightweight, plug-and-play guardrail that can be integrated with existing requirements clarification approaches (e.g., AI-human intervention) and code generation frameworks or IDEs, without modifying the underlying models.
+
+Beyond code generation, the core idea may extend to other tasks that rely on textual input. Potential applications include detecting uncertainty in commit messages, reasoning outputs from LLMs, and software maintenance specifications, among others. More broadly, our framework offers a generalizable strategy for mitigating input-side uncertainty using a lightweight classifier, sidestepping the need for costly downstream execution.
+
+
+\subsection{Threats to Validity}
+\label{subsec:threats}
+\noindent\textbf{Construct Validity.} Due to the lack of public benchmarks with naturally ambiguous requirements, we construct our evaluation data by injecting perturbations into existing benchmarks. To mitigate potential biases, we adopt perturbation strategies from established literature and perform automated injection without human intervention. 
+
+Another potential threat is data contamination, as the widely used benchmarks may overlap with LLM training corpora. This could inflate absolute pass@1 values. However, such contamination is systematic rather than selective, affecting both clarified and unclarified settings symmetrically; hence it does not threaten the relative improvement from \textsc{Pulse}. The use of perturbed prompts further mitigates memorization effects.
+
+\noindent\textbf{External Validity.} Our evaluation of project-level generalizability remains preliminary, limited to one approach, \textsc{ProjectGen}. Additionally, our experiments are primarily conducted on Python benchmarks, which may constrain generalizability to other programming languages. We leave broader deployment and multi-language evaluation as future work.
+
+\noindent\textbf{Internal validity.} The first threat stems from the inherent uncertainty of the employed code generation approaches, whether LLMs or agentic workflows. To mitigate this bias, we run each approach five times and report the average metrics. The second threat concerns the clarification process in our experiments, where the answering agent has access to the ground-truth requirements, mimicking the assumption that user engineers typically hold or can obtain the required knowledge. To avoid leaking the answer directly, we carefully design the prompt to control both input and output within the asking-answering loop.
