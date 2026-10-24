@@ -275,6 +275,20 @@ def table_widths(rows, columns):
             break
         for index in available:
             widths[index] = max(equal * 0.62, min(equal * 1.8, widths[index] + delta / len(available)))
+    minimums = [equal * 0.62] * columns
+    for index, cell in enumerate(children(rows[0], "tc")):
+        words = re.findall(r"[A-Za-z]{8,}", text_of(cell))
+        if words:
+            minimums[index] = min(equal * 1.8, max(minimums[index], 120 * max(map(len, words)) + 240))
+    for index, minimum in enumerate(minimums):
+        deficit = max(0, minimum - widths[index])
+        for donor in sorted(range(columns), key=lambda i: widths[i] - minimums[i], reverse=True):
+            if donor == index or deficit < 1:
+                continue
+            amount = min(deficit, max(0, widths[donor] - minimums[donor]))
+            widths[donor] -= amount
+            widths[index] += amount
+            deficit -= amount
     rounded = [round(width) for width in widths]
     rounded[-1] += TABLE_WIDTH - sum(rounded)
     return rounded

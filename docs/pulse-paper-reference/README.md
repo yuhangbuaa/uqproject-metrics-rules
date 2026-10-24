@@ -1,6 +1,6 @@
 # PULSE 项目论文参考材料
 
-这里保存 PULSE 项目既有论文工程的 LaTeX 副本，供项目研究报告撰写不确定性来源分类、需求端量化与主动感知方法时查阅。它是参考快照，不是两份项目研究报告的主稿，也不是与原论文仓库自动同步的工作目录。
+这里保存 PULSE 项目既有论文工程的 LaTeX 副本，供项目研究报告撰写不确定性来源分类、需求端量化与主动感知方法时查阅。它是参考快照，不是两份项目研究报告的主稿，也不是与原论文仓库自动同步的工作目录。规划端与推理—检索方向的材料见[研究论文参考材料索引](../README.md)。
 
 论文暂题为 *Towards Pre-generation Requirement Uncertainty Assessment for Code Generation*。`main.tex` 是入口；`Sections/`、`tables/`、`figures/` 和 `Reference.bib` 分别保存章节、表格、图件和参考文献。项目研究报告主稿及转换方法见[协作仓库 README](../../README.md)。
 
