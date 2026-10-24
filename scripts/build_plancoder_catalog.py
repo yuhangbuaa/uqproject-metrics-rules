@@ -22,6 +22,7 @@ def build_catalog():
     for kind in ("metrics", "rules"):
         data[kind] = [x for x in data[kind] if not x["id"].startswith("S-")]
         for x in data[kind]:
+            x.pop("status", None)
             x["sourceKey"] = "pulse"
             x["entryType"] = "不确定性度量" if kind == "metrics" else "候选风险条件"
             x["countingStatus"] = "独立条目与验收计数待核定"
@@ -45,7 +46,7 @@ def build_catalog():
             + '\n});\nconsole.log(result.value, result.rationale);'
         )
         data["metrics"].append({
-            "id": identifier, "name": name, "group": "计划质量", "status": "B", "source": SOURCE, "sourceKey": "plancoder",
+            "id": identifier, "name": name, "group": "计划质量", "source": SOURCE, "sourceKey": "plancoder",
             "entryType": "计划质量评分", "summary": definition,
             "formula": f"s_{dimension} = Judge(task, plan{', visibleTests' if dimension == 'feasibility' else ''}) ∈ [0,1]；分数越高质量越好",
             "inputs": "apiKey、baseUrl（模型服务 HTTPS 基础地址）、model、problem（任务）、plan（计划）" + ("、visibleTests（非空可见测试数组）" if dimension == "feasibility" else "；该维度不发送测试") + "；可选 timeoutMs（默认60000毫秒）。",
@@ -63,7 +64,7 @@ def build_catalog():
             "inputExample": {"review": {"dimension": dimension, "score": 0.4, "rationale": "合成示例：用于验证接口格式，不是研究评分。", "evaluator": "synthetic-example", "rubricVersion": RUBRIC}},
         })
     data["metrics"].append({
-        "id": "S-I04", "name": "代码通过率方差", "group": "生成稳定性", "status": "B", "source": SOURCE, "sourceKey": "plancoder",
+        "id": "S-I04", "name": "代码通过率方差", "group": "生成稳定性", "source": SOURCE, "sourceKey": "plancoder",
         "entryType": "结果波动度量", "summary": "衡量同一任务多次生成代码在同一测试集上的通过率波动。",
         "formula": "Var(PR) = (1/K) Σᵢ(rᵢ − mean(r))²；本接口固定 ddof=0，K≥2，值域 [0,0.25]",
         "inputs": "同题、同测试条件下至少两次生成的逐候选测试通过率；论文实验为五次。",
@@ -79,7 +80,7 @@ def build_catalog():
         chinese = {"feasibility": "可行性", "relevance": "相关性", "clarity": "清晰度"}[dimension]
         correlation = ["0.293 / 0.158", "0.198 / 0.101", "0.102 / 0.079"][dimension_index - 1]
         data["rules"].append({
-            "id": identifier, "name": f"低计划{chinese}的后续实现风险", "group": "计划质量风险", "status": "C", "source": SOURCE, "sourceKey": "plancoder",
+            "id": identifier, "name": f"低计划{chinese}的后续实现风险", "group": "计划质量风险", "source": SOURCE, "sourceKey": "plancoder",
             "entryType": "预测假设", "summary": f"将低{chinese}评分作为后续代码质量风险的方向性提示。",
             "condition": f"生成代码前的 {dimension} 分数小于调用方预先提供的阈值。", "outcome": "提示后续代码可能存在功能失败或实现困难；不输出失败概率。",
             "inputs": f"S-I0{dimension_index} 的生成前评分，以及在独立训练数据上预先固定的阈值。",
@@ -97,7 +98,7 @@ def build_catalog():
     ]
     for identifier, name, condition, outcome, signature, example in strategies:
         data["rules"].append({
-            "id": identifier, "name": name, "group": "分阶段修复控制", "status": "A", "source": SOURCE, "sourceKey": "plancoder", "entryType": "修复策略",
+            "id": identifier, "name": name, "group": "分阶段修复控制", "source": SOURCE, "sourceKey": "plancoder", "entryType": "修复策略",
             "summary": outcome, "condition": condition, "outcome": outcome,
             "inputs": "公开测试通过标记、已执行计划/代码修复次数、配置预算；默认上限5次和6次。",
             "functionSignature": signature, "functionNote": "执行阶段条件判断；不运行生成代码、不调用模型、不替代隐藏测试。",

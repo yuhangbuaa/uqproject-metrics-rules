@@ -269,14 +269,6 @@
             "required": false
           },
           {
-            "name": "status",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            },
-            "required": false
-          },
-          {
             "name": "entryType",
             "in": "query",
             "schema": {
@@ -1190,14 +1182,6 @@
         "parameters": [
           {
             "name": "sourceKey",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            },
-            "required": false
-          },
-          {
-            "name": "status",
             "in": "query",
             "schema": {
               "type": "string"

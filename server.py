@@ -104,7 +104,7 @@ class Handler(SimpleHTTPRequestHandler):
                 item = next((x for x in items if x["id"] == identifier), None)
                 return self.json_response(200 if item else 404, item or {"error": "条目不存在"})
             query = parse_qs(urlsplit(self.path).query)
-            for key in ("sourceKey", "status", "entryType"):
+            for key in ("sourceKey", "entryType"):
                 if query.get(key):
                     items = [x for x in items if x.get(key) == query[key][0]]
             return self.json_response(200, {"items": items, "count": len(items), "countingStatus": "候选条目数量，非合同验收结论"})

@@ -1,5 +1,5 @@
 {
-  "executedAt": "2026-10-22T15:48:13.115947+08:00",
+  "executedAt": "2026-10-24T14:14:26.350375+08:00",
   "scope": "本机内部自测，非专家或第三方测试",
   "externalModelCalled": false,
   "python": {
@@ -15,10 +15,10 @@
     "passed": true
   },
   "environment": {
-    "system": "Windows",
-    "release": "10",
-    "machine": "AMD64",
-    "processor": "Intel64 Family 6 Model 151 Stepping 5, GenuineIntel"
+    "system": "Darwin",
+    "release": "24.4.0",
+    "machine": "arm64",
+    "processor": "arm"
   },
   "catalog": {
     "metrics": 12,
@@ -28,14 +28,14 @@
     "plancoderStrategies": 3
   },
   "sourceHashes": {
-    "server.py": "2dd04aa77c9f48827caa0393d9e1bdac6d0cc0e28139ea390a9dba6977fe0475",
-    "plancoder_metrics.py": "2154a0a604755445f081351cb8cf30e4412f21d2ec89ded280cb50d9e85723c4",
+    "server.py": "5d1f25407d704896d61708b21c919e722b2e7f4c726ee0091abbfa586988068a",
+    "plancoder_metrics.py": "14812cd75081c19038810a3a0c8e7c1628d8ad8adef9f45349aa7fe474e05bcc",
     "pulse_metrics.py": "3d133140baa1c23c2fb050d0bebfbbca12934a9ce2c205c3b2dd0ae34c41ae86",
-    "dist/catalog-functions.mjs": "17afaa4ae851edde14aa005f78761b66681518b2a15fd57632b8dd0d9c826c53",
-    "dist/pulse-functions.mjs": "e42b86d9981067b49203969c4530c800d6b82ad0db6b15288d12bdbe6c6e960a",
-    "dist/catalog.json": "113feeae11167be4aa3e1126210cf5a2ef4ca0cf01d7203c323938aea606163b",
-    "dist/pulse-evidence.json": "a4b2ad0c80f72c8ec3469256ce397b652ee9d722a856f65b6a44208c84a71e6c",
-    "tests/test_api.py": "85a176d0bd40f578dac9f42f30af0d13ce681cc0bba75f3ba1ededfd31ad1417",
-    "tests/catalog-functions.test.mjs": "498048f41f3837415a416085ae16a9ab60f4dac661bc59f8d6bb87fefe5a1bbe"
+    "dist/catalog-functions.mjs": "e6d38a736a8e51329db416629b925326ab34ebee39527bb7c40024ad12540623",
+    "dist/pulse-functions.mjs": "3df76ba3a7f3bfc8a8a62f6489d7f79da8f586e111deac2de9b462499b5e5587",
+    "dist/catalog.json": "cf51e954f99c47f16de0da7c0977783c3e7e3ab347a52768df23b0f9072f1949",
+    "dist/pulse-evidence.json": "852855172dc90a2b8ff07fcaa6f355f1eb729d94e70744041c23aa4e366bc5d3",
+    "tests/test_api.py": "1ddc3660fe4577553933491f9af083ae2d87adc42676cdfcc2784a8a2cc4efdc",
+    "tests/catalog-functions.test.mjs": "4a80c680db3423a566cf392258d5609e57834934acf3cd07424dc2e79478f1c6"
   }
 }

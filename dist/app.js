@@ -1,7 +1,6 @@
-const state = { data: null, kind: "metrics", query: "", status: "all", source: "all", type: "all", selected: { metrics: null, rules: null } };
+const state = { data: null, kind: "metrics", query: "", source: "all", type: "all", selected: { metrics: null, rules: null } };
 const $ = (id) => document.getElementById(id);
 const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
-const statusText = { A: "A · 实现与记录", B: "B · 待独立验证", C: "C · 机制候选" };
 
 function entries() {
   return state.data?.[state.kind] ?? [];
@@ -10,7 +9,6 @@ function entries() {
 function visibleEntries() {
   const search = state.query.trim().toLocaleLowerCase("zh-CN");
   return entries().filter((item) => {
-    if (state.status !== "all" && item.status !== state.status) return false;
     if (state.source !== "all" && item.sourceKey !== state.source) return false;
     if (state.type !== "all" && item.entryType !== state.type) return false;
     if (!search) return true;
@@ -37,7 +35,7 @@ function functionBlock(item, isMetric) {
 function renderDetail(item) {
   const panel = $("detailPanel");
   if (!item) {
-    panel.innerHTML = `<div class="empty-state">当前筛选下没有条目。试试其他关键词或状态。</div>`;
+    panel.innerHTML = `<div class="empty-state">当前筛选下没有条目。试试其他关键词或筛选条件。</div>`;
     return;
   }
   const isMetric = state.kind === "metrics";
@@ -45,7 +43,7 @@ function renderDetail(item) {
   const highlightLabel = isMetric ? "计算口径" : item.entryType === "修复策略" ? "触发条件 → 执行动作" : "触发条件 → 风险提示";
   const highlight = isMetric ? item.formula : `${item.condition} → ${item.outcome}`;
   panel.innerHTML = `
-    <div class="detail-kicker"><span>${escapeHtml(item.id)} / ${escapeHtml(item.group)} · ${escapeHtml(item.source)}</span><span class="status-pill status-${escapeHtml(item.status)}">${escapeHtml(statusText[item.status])}</span></div>
+    <div class="detail-kicker"><span>${escapeHtml(item.id)} / ${escapeHtml(item.group)} · ${escapeHtml(item.source)}</span></div>
     <h3>${escapeHtml(item.name)}</h3>
     <p class="detail-summary">${escapeHtml(item.summary)}</p>
     <div class="detail-highlight"><small>${highlightLabel}</small><p>${escapeHtml(highlight)}</p></div>
@@ -100,7 +98,7 @@ function render() {
   $("entryList").innerHTML = list.length ? list.map((item) => `
     <button type="button" class="entry-card ${state.selected[state.kind] === item.id ? "is-selected" : ""}" data-entry-id="${escapeHtml(item.id)}" aria-pressed="${state.selected[state.kind] === item.id}">
       <span class="entry-topline"><span class="entry-id">${escapeHtml(item.id)}</span><span class="entry-group">${escapeHtml(item.group)}</span></span>
-      <span class="entry-name-row"><strong>${escapeHtml(item.name)}</strong><span class="status-pill status-${escapeHtml(item.status)}">${escapeHtml(item.status)}</span></span>
+      <span class="entry-name-row"><strong>${escapeHtml(item.name)}</strong></span>
       <p class="entry-source">${escapeHtml(item.sourceKey === "plancoder" ? "PlanCoder" : "PULSE")} · ${escapeHtml(item.entryType)}</p><p>${escapeHtml(item.summary)}</p>
     </button>`).join("") : `<div class="empty-state">没有匹配的条目。请调整搜索或筛选条件。</div>`;
 
@@ -118,14 +116,11 @@ function bindControls() {
   document.querySelectorAll("[data-kind]").forEach((tab) => tab.addEventListener("click", () => {
     state.kind = tab.dataset.kind;
     state.query = "";
-    state.status = "all";
     state.type = "all";
     $("searchInput").value = "";
-    $("statusFilter").value = "all";
     render();
   }));
   $("searchInput").addEventListener("input", (event) => { state.query = event.target.value; render(); });
-  $("statusFilter").addEventListener("change", (event) => { state.status = event.target.value; render(); });
   $("sourceFilter").addEventListener("change", (event) => { state.source = event.target.value; render(); });
   $("typeFilter").addEventListener("change", (event) => { state.type = event.target.value; render(); });
   document.querySelectorAll("[data-source]").forEach((button) => button.addEventListener("click", () => {

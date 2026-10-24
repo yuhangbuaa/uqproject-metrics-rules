@@ -28,7 +28,7 @@ paths = {
 paths["/api/v1/plans/score"]["post"]["responses"].update({"503": {"description": "模型评分未配置"}, "502": {"description": "外部服务请求或返回解析失败"}})
 for kind in ("metrics", "rules"):
     op = operation("查询条目列表并筛选")
-    op["parameters"] = [{"name": key, "in": "query", "schema": {"type": "string"}, "required": False} for key in ("sourceKey", "status", "entryType")]
+    op["parameters"] = [{"name": key, "in": "query", "schema": {"type": "string"}, "required": False} for key in ("sourceKey", "entryType")]
     paths[f"/api/v1/{kind}"] = {"get": op}
     for item in catalog[kind]:
         paths[f"/api/v1/{kind}/{item['id']}"] = {"get": operation(item["name"] + " 定义与证据")}
