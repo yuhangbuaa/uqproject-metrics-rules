@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1050" height="300" viewBox="0 0 1050 300">
+  <rect width="1050" height="300" fill="#ffffff"/>
+  <style>text{font-family:"Microsoft YaHei","SimHei",sans-serif;fill:#17263c}.title{font-size:24px;font-weight:700}.head{font-size:19px;font-weight:700}.body{font-size:16px}.box{fill:#eef4fa;stroke:#426b95;stroke-width:2;rx:10}.arrow{stroke:#426b95;stroke-width:3;fill:none;marker-end:url(#a)}</style>
+  <defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#426b95"/></marker></defs>
+  <text x="525" y="40" text-anchor="middle" class="title">软件接口维护任务的应用步骤</text>
+  <rect x="20" y="82" width="230" height="125" class="box"/><text x="135" y="113" text-anchor="middle" class="head">变更工单</text><text x="135" y="143" text-anchor="middle" class="body">目标版本与异常行为</text><text x="135" y="171" text-anchor="middle" class="body">检查缺失约束</text>
+  <rect x="280" y="82" width="230" height="125" class="box"/><text x="395" y="113" text-anchor="middle" class="head">需求澄清</text><text x="395" y="143" text-anchor="middle" class="body">确认边界与兼容范围</text><text x="395" y="171" text-anchor="middle" class="body">保留回答来源</text>
+  <rect x="540" y="82" width="230" height="125" class="box"/><text x="655" y="113" text-anchor="middle" class="head">方案与实现</text><text x="655" y="143" text-anchor="middle" class="body">规划评分及必要检索</text><text x="655" y="171" text-anchor="middle" class="body">生成修复补丁</text>
+  <rect x="800" y="82" width="230" height="125" class="box"/><text x="915" y="113" text-anchor="middle" class="head">独立验证</text><text x="915" y="143" text-anchor="middle" class="body">接口与回归测试</text><text x="915" y="171" text-anchor="middle" class="body">记录质量和成本</text>
+  <path d="M250 145 H277 M510 145 H537 M770 145 H797" class="arrow"/>
+  <text x="525" y="252" text-anchor="middle" class="body">建议应用流程；效果须与直接生成及单方法流程在同一批任务上比较</text>
+</svg>

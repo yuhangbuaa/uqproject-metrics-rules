@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="430" viewBox="0 0 1100 430">
+  <rect width="1100" height="430" fill="#ffffff"/>
+  <style>
+    text { font-family: "Microsoft YaHei", "SimHei", sans-serif; fill: #17263c; }
+    .title { font-size: 25px; font-weight: 700; }
+    .head { font-size: 21px; font-weight: 700; }
+    .body { font-size: 17px; }
+    .box { fill: #eef4fa; stroke: #426b95; stroke-width: 2; rx: 12; }
+    .method { fill: #eaf5ed; stroke: #338056; stroke-width: 2; rx: 10; }
+    .arrow { stroke: #426b95; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+    .link { stroke: #338056; stroke-width: 2.5; fill: none; marker-end: url(#greenArrow); }
+  </style>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#426b95"/></marker>
+    <marker id="greenArrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#338056"/></marker>
+  </defs>
+  <text x="550" y="40" text-anchor="middle" class="title">多阶段代码生成框架及主动感知接入位置</text>
+  <rect x="35" y="83" width="170" height="82" class="box"/><text x="120" y="116" text-anchor="middle" class="head">需求输入</text><text x="120" y="144" text-anchor="middle" class="body">原文与约束</text>
+  <rect x="250" y="83" width="170" height="82" class="box"/><text x="335" y="116" text-anchor="middle" class="head">示例回忆</text><text x="335" y="144" text-anchor="middle" class="body">相关经验</text>
+  <rect x="465" y="83" width="170" height="82" class="box"/><text x="550" y="116" text-anchor="middle" class="head">规划生成</text><text x="550" y="144" text-anchor="middle" class="body">步骤与约束</text>
+  <rect x="680" y="83" width="170" height="82" class="box"/><text x="765" y="116" text-anchor="middle" class="head">代码生成</text><text x="765" y="144" text-anchor="middle" class="body">候选实现</text>
+  <rect x="895" y="83" width="170" height="82" class="box"/><text x="980" y="116" text-anchor="middle" class="head">测试与调试</text><text x="980" y="144" text-anchor="middle" class="body">反馈和返回</text>
+  <path d="M205 124 H247 M420 124 H462 M635 124 H677 M850 124 H892" class="arrow"/>
+  <rect x="35" y="228" width="260" height="84" class="method"/><text x="165" y="260" text-anchor="middle" class="head">需求风险感知</text><text x="165" y="289" text-anchor="middle" class="body">预测 → 澄清 → 保留来源</text>
+  <rect x="403" y="228" width="295" height="84" class="method"/><text x="550" y="260" text-anchor="middle" class="head">规划质量感知</text><text x="550" y="289" text-anchor="middle" class="body">评分 → 规则修复</text>
+  <rect x="805" y="228" width="260" height="84" class="method"/><text x="935" y="260" text-anchor="middle" class="head">知识证据选择</text><text x="935" y="289" text-anchor="middle" class="body">置信信号 → 检索</text>
+  <path d="M120 165 V225 M550 165 V225 M935 226 V180" class="link"/>
+  <text x="550" y="366" text-anchor="middle" class="body">每次动作记录输入版本、信号、阈值、结果与成本；测试反馈可返回规划或代码修复</text>
+  <text x="550" y="399" text-anchor="middle" class="body">图示为方法接入设计，三项方法的联合收益仍需同任务验证</text>
+</svg>

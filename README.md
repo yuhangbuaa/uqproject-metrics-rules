@@ -109,7 +109,9 @@ python server.py
 - [决策不确定性及其来源的分析-分类-量化方法研究报告](deliverables/研究报告_20261025/分析分类量化.md)
 - [智能软件决策多元不确定性主动感知方法研究报告](deliverables/研究报告_20261025/不确定性感知.md)
 
-这次转换移除了 Word 中带固定页码的目录，并将正文标题、表格和公式整理为可编辑的 Markdown；主动感知报告的四张图位于同目录的 `不确定性感知_assets/`，移动 Markdown 时需一并保留该目录。原 `deliverables/研究报告_20261023/` 保存此前版本。`export-reports.cmd` 和 `scripts/export_research_reports.py` 仍只处理该日期目录中的旧版文件，不能用于新导入的两份主稿。
+这次转换移除了 Word 中带固定页码的目录，并将正文标题、表格和公式整理为可编辑的 Markdown；主动感知报告的图片位于同目录的 `media/`，移动 Markdown 时需一并保留该目录。原 `deliverables/研究报告_20261023/` 保存此前版本。`export-reports.cmd` 和 `scripts/export_research_reports.py` 仍只处理该日期目录中的旧版文件。当前两份报告和评审意见表可用 `python scripts/export_20261025_revisions.py` 重新导出 Word。
+
+针对 `deliverables/研究报告_20261025/评审意见表-1025.docx` 的意见，两份 Markdown 已补充编制依据、双向追踪、分类量化与规则过程、展示公式编号及应用案例；主动感知报告另新增两张方法和软件应用示意图。[评审意见表 Markdown 版](deliverables/研究报告_20261025/评审意见表-1025.md)已逐条填写对应修改位置。三份文件已导出同目录的 `*_修改版.docx`，原同名 Word 文件继续作为导入原件保存。修改位置也记录在根目录 `历史文档/评审意见/修改记录.md`。
 
 此前版本四张配图的来源说明仍见 `deliverables/研究报告_20261023/figures/README.md`。新导入 Word 中的图片已随当前 Markdown 单独提取，内容和图题以本次 Word 版为准。
 
